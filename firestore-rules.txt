@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Proyecto de Firebase EXCLUSIVO de J & Y Jewelry.
+    // No compartir con ninguna otra oficina digital.
+
+    // Solo J & Y (autenticado con este correo) puede leer y administrar.
+    function esAdmin() {
+      return request.auth != null
+        // >>> CAMBIAR por el correo de Google con el que J & Y entrará a Firebase <<<
+        && request.auth.token.email == 'CORREO-ADMIN@gmail.com';
+    }
+
+    // Solicitudes de evaluación que llegan desde la página.
+    // Cualquiera puede CREAR una solicitud válida; nadie puede leerlas
+    // ni modificarlas desde la web pública.
+    match /leads/{id} {
+      allow read, update, delete: if esAdmin();
+      allow create: if
+        request.resource.data.estado == 'nuevo'
+        && request.resource.data.origen == 'web'
+        && request.resource.data.nombre is string
+        && request.resource.data.nombre.size() >= 2
+        && request.resource.data.nombre.size() <= 80
+        && request.resource.data.telefono is string
+        && request.resource.data.telefono.size() >= 10
+        && request.resource.data.telefono.size() <= 15
+        && request.resource.data.ciudad is string
+        && request.resource.data.ciudad.size() >= 2
+        && request.resource.data.ciudad.size() <= 60
+        && request.resource.data.metal in ['Oro','Plata','Oro y plata','No estoy seguro']
+        && request.resource.data.lugar is string
+        && request.resource.data.lugar.size() <= 120
+        && request.resource.data.mensaje is string
+        && request.resource.data.mensaje.size() <= 800
+        && request.resource.data.fotos is list
+        && request.resource.data.fotos.size() <= 3;
+    }
+
+    // Todo lo demás, cerrado.
+    match /{documento=**} {
+      allow read, write: if false;
+    }
+  }
+}
