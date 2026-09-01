@@ -108,6 +108,19 @@ body{
 }
 img{max-width:100%;display:block}
 a{color:inherit}
+
+/* ---- Fondo global: mármol facetado + uniones doradas ----
+   Capa fija (funciona en iOS, a diferencia de background-attachment).
+   Las secciones claras son translúcidas para que la textura respire
+   sin comprometer la legibilidad. */
+.fondo-app{position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--marmol)}
+.fondo-app img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.92}
+.fondo-app::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(251,250,247,.42) 0%,rgba(251,250,247,.5) 100%);
+}
+.seccion-clara{background:rgba(251,250,247,.80)}
+.fondo-marfil{background:rgba(244,239,230,.86)}
 button{font-family:inherit;cursor:pointer}
 ::selection{background:#EBD9AC;color:var(--carbon)}
 
@@ -190,46 +203,68 @@ header{
 }
 .menu-panel .btn{margin-top:1.6rem}
 
-/* ---- Hero ---- */
-.hero{overflow:hidden;background:var(--marmol)}
-.hero-grid{
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.94fr);
-  gap:clamp(2rem,5vw,4.5rem);align-items:center;
-  padding:clamp(3rem,7vw,5.5rem) 0 clamp(3.2rem,7vw,5.5rem);
+/* ---- Hero: fotografía a sangre completa, texto sobre el mármol ---- */
+.hero{
+  position:relative;overflow:hidden;
+  min-height:calc(100svh - 72px);
+  display:flex;align-items:center;
+  background:var(--marmol);
 }
-.hero h1{font-size:clamp(2.6rem,6vw,4.35rem);font-weight:600;margin:.4rem 0 1.2rem}
-.hero h1 em{font-style:italic;color:var(--oro-osc)}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:right center}
+.hero-velo{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,
+    rgba(251,250,247,.97) 0%,
+    rgba(251,250,247,.90) 30%,
+    rgba(251,250,247,.55) 50%,
+    rgba(251,250,247,.10) 66%,
+    rgba(251,250,247,0) 80%);
+}
+.hero-contenido{
+  position:relative;z-index:1;width:100%;
+  padding-top:clamp(3rem,8vw,6rem);padding-bottom:clamp(3rem,8vw,6rem);
+}
+.hero-texto{max-width:36rem}
 .hero .marca{
-  font-family:var(--sans);font-weight:700;font-size:.8rem;letter-spacing:.3em;
-  text-transform:uppercase;color:var(--piedra);
+  font-family:var(--sans);font-weight:700;font-size:.78rem;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--oro-osc);
+  display:flex;align-items:center;gap:.9rem;
 }
-.hero p.sub{font-size:1.06rem;color:#4A463B;max-width:34rem;margin-bottom:1.9rem}
+.hero .marca::before{content:"";width:30px;height:1px;background:var(--grad-oro);flex:none}
+.hero h1{font-size:clamp(2.7rem,5.6vw,4.6rem);font-weight:600;margin:1rem 0 1.2rem;color:var(--carbon)}
+.hero h1 em{font-style:italic;color:var(--oro-osc)}
+.hero p.sub{font-size:1.06rem;color:#3F3B31;max-width:31rem;margin-bottom:1.9rem}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:.9rem;margin-bottom:2.1rem}
 .hero-datos{
   display:flex;flex-wrap:wrap;gap:.4rem 0;list-style:none;
-  font-size:.8rem;font-weight:600;color:#5A564A;
+  font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A564A;
 }
 .hero-datos li{display:flex;align-items:center}
 .hero-datos li+li::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--oro);margin:0 .85rem}
-.hero-foto{position:relative}
-.hero-foto .marco{
-  border-radius:18px;overflow:hidden;box-shadow:var(--sombra);
-  border:1px solid #EDE7D8;position:relative;
-}
-.hero-foto img{width:100%;height:100%;object-fit:cover;aspect-ratio:5/4}
-.hero-foto .marco::after{
-  content:"";position:absolute;inset:0;border-radius:18px;
-  border:1px solid rgba(176,138,51,.35);pointer-events:none;
-}
-/* nodo dorado decorativo del hero */
-.hero-foto .nodo{
-  position:absolute;left:-34px;bottom:-30px;width:130px;height:130px;pointer-events:none;
+/* Veta dorada al pie del hero */
+.hero-linea{
+  position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:linear-gradient(90deg,rgba(176,138,51,0),rgba(201,162,75,.9) 40%,rgba(201,162,75,.9) 60%,rgba(176,138,51,0));
 }
 @media(max-width:860px){
-  .hero-grid{grid-template-columns:1fr;padding-top:2.2rem}
-  .hero-foto{order:-1}
-  .hero-foto img{aspect-ratio:16/10}
-  .hero-foto .nodo{display:none}
+  /* Móvil: la joyería arriba, el titular emerge del mármol abajo */
+  .hero{min-height:calc(100svh - 72px);align-items:flex-end}
+  .hero-bg img{object-position:74% 22%}
+  .hero-velo{
+    background:linear-gradient(0deg,
+      rgba(251,250,247,.98) 0%,
+      rgba(251,250,247,.94) 38%,
+      rgba(251,250,247,.55) 58%,
+      rgba(251,250,247,.10) 74%,
+      rgba(251,250,247,0) 100%);
+  }
+  .hero-contenido{padding-top:46svh;padding-bottom:2.4rem}
+  .hero h1{font-size:clamp(2.5rem,10.5vw,3.4rem);margin:.8rem 0 1rem}
+  .hero p.sub{font-size:1rem;margin-bottom:1.5rem}
+  .hero-ctas{gap:.7rem;margin-bottom:1.5rem}
+  .hero-ctas .btn{flex:1 1 46%;padding:.9rem 1rem}
+  .hero-datos{font-size:.7rem}
 }
 
 /* ---- Franja de confianza ---- */
@@ -242,7 +277,6 @@ header{
 .franja li+li::before{content:"";width:5px;height:5px;transform:rotate(45deg);background:var(--oro-cl);margin:0 1.15rem;flex:none}
 
 /* ---- Cards de propuesta ---- */
-.fondo-marfil{background:var(--marfil)}
 .grid-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.15rem;margin-top:2.6rem}
 @media(max-width:900px){.grid-cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.grid-cards{grid-template-columns:1fr}}
@@ -412,7 +446,10 @@ footer a:hover{color:var(--oro-cl)}
   background:rgba(23,21,15,.94);backdrop-filter:blur(10px);
   padding:.6rem .8rem calc(.6rem + env(safe-area-inset-bottom));
   gap:.6rem;border-top:1px solid rgba(217,188,110,.25);
+  transform:translateY(110%);transition:transform .35s cubic-bezier(.4,0,.2,1);
 }
+.barra-movil.visible{transform:none}
+body.modal-abierto .barra-movil{transform:translateY(110%)}
 .barra-movil .btn{flex:1;min-height:46px;font-size:.85rem;padding:.7rem .5rem}
 .barra-movil .btn-linea{border-color:rgba(255,255,255,.5);color:#fff}
 @media(max-width:760px){
@@ -510,6 +547,9 @@ footer a:hover{color:var(--oro-cl)}
 </style>
 </head>
 <body>
+<div class="fondo-app" aria-hidden="true">
+  <img src="assets/fondo-marmol-oro.webp" alt="" loading="eager" decoding="async">
+</div>
 
 <!-- ================= HEADER ================= -->
 <header>
@@ -554,8 +594,14 @@ footer a:hover{color:var(--oro-cl)}
 
 <!-- ================= HERO ================= -->
 <section class="hero" aria-label="Presentación">
-  <div class="contenedor hero-grid">
-    <div>
+  <div class="hero-bg" aria-hidden="true">
+    <picture>
+      <img src="assets/hero-marmol-joyas.webp" alt="" fetchpriority="high" width="1536" height="1024">
+    </picture>
+  </div>
+  <div class="hero-velo" aria-hidden="true"></div>
+  <div class="contenedor hero-contenido">
+    <div class="hero-texto">
       <p class="marca">J &amp; Y Jewelry</p>
       <h1>Tu oro al <em>mejor precio</em> en Texas</h1>
       <p class="sub">Compramos oro y plata en Dallas y alrededores. Evaluamos tus piezas con transparencia y vamos hasta tu hogar o lugar de preferencia.</p>
@@ -570,23 +616,8 @@ footer a:hover{color:var(--oro-cl)}
         <li>Por cita previa</li>
       </ul>
     </div>
-    <figure class="hero-foto">
-      <div class="marco">
-        <picture>
-          <source media="(max-width:700px)" srcset="assets/hero-marmol-joyas-movil.webp">
-          <img src="assets/hero-marmol-joyas.webp" alt="Cadenas de oro, anillo y pulsera de plata sobre mármol blanco con vetas doradas" fetchpriority="high" width="1536" height="1024">
-        </picture>
-      </div>
-      <svg class="nodo" viewBox="0 0 130 130" fill="none" aria-hidden="true">
-        <path d="M12 118 L48 74 L34 30 M48 74 L96 60 L118 14 M96 60 L112 104" stroke="url(#gnodo)" stroke-width="2.4" stroke-linecap="round"/>
-        <circle cx="48" cy="74" r="4.5" fill="#C9A24B"/>
-        <circle cx="96" cy="60" r="3.5" fill="#C9A24B"/>
-        <defs><linearGradient id="gnodo" x1="0" y1="0" x2="130" y2="130" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#8A6B24"/><stop offset=".5" stop-color="#EBD08A"/><stop offset="1" stop-color="#8A6B24"/>
-        </linearGradient></defs>
-      </svg>
-    </figure>
   </div>
+  <span class="hero-linea" aria-hidden="true"></span>
 </section>
 
 <!-- ================= FRANJA DE CONFIANZA ================= -->
@@ -648,7 +679,7 @@ footer a:hover{color:var(--oro-cl)}
 </section>
 
 <!-- ================= QUÉ COMPRAMOS ================= -->
-<section id="que-compramos" class="seccion" aria-labelledby="t-compramos">
+<section id="que-compramos" class="seccion seccion-clara" aria-labelledby="t-compramos">
   <div class="contenedor">
     <p class="eyebrow reveal">Qué compramos</p>
     <h2 id="t-compramos" class="reveal" style="font-size:clamp(2rem,4.5vw,3rem)">¿Qué deseas vender?</h2>
@@ -719,7 +750,7 @@ footer a:hover{color:var(--oro-cl)}
 </section>
 
 <!-- ================= SERVICIO A DOMICILIO ================= -->
-<section class="seccion" aria-labelledby="t-domicilio">
+<section class="seccion seccion-clara" aria-labelledby="t-domicilio">
   <div class="contenedor domicilio-grid">
     <div class="domicilio">
       <p class="eyebrow reveal">Servicio a domicilio</p>
@@ -764,7 +795,7 @@ footer a:hover{color:var(--oro-cl)}
 </section>
 
 <!-- ================= NOSOTROS ================= -->
-<section id="nosotros" class="seccion" aria-labelledby="t-nosotros">
+<section id="nosotros" class="seccion seccion-clara" aria-labelledby="t-nosotros">
   <div class="contenedor nosotros-caja">
     <p class="eyebrow reveal" style="justify-content:center">Sobre J &amp; Y Jewelry</p>
     <h2 id="t-nosotros" class="reveal">Una relación basada en confianza.</h2>
@@ -1000,6 +1031,7 @@ footer a:hover{color:var(--oro-cl)}
   function abrirModal(e){
     ultimoFoco = document.activeElement;
     modal.classList.add("abierto");
+    document.body.classList.add("modal-abierto");
     document.body.style.overflow = "hidden";
     abiertoDesde = Date.now();
     var pre = e && e.currentTarget && e.currentTarget.getAttribute("data-metal");
@@ -1011,6 +1043,7 @@ footer a:hover{color:var(--oro-cl)}
   }
   function cerrarModal(){
     modal.classList.remove("abierto");
+    document.body.classList.remove("modal-abierto");
     document.body.style.overflow = "";
     if(ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
   }
@@ -1153,6 +1186,19 @@ footer a:hover{color:var(--oro-cl)}
       btnEnviar.textContent = "Solicitar mi evaluación";
     }
   });
+
+  /* ---------- Barra móvil: aparece después de la segunda pantalla ---------- */
+  var barra = document.getElementById("barraMovil");
+  var UMBRAL_BARRA = 1.5;   /* pantallas de scroll antes de mostrarla */
+  var ticking = false;
+  function revisarBarra(){
+    ticking = false;
+    barra.classList.toggle("visible", window.scrollY > window.innerHeight * UMBRAL_BARRA);
+  }
+  window.addEventListener("scroll", function(){
+    if(!ticking){ ticking = true; requestAnimationFrame(revisarBarra); }
+  }, {passive:true});
+  revisarBarra();
 
   /* ---------- Reveal al hacer scroll ---------- */
   var reduc = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
