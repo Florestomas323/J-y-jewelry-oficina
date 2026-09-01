@@ -206,7 +206,7 @@ header{
 /* ---- Hero: fotografía a sangre completa, texto sobre el mármol ---- */
 .hero{
   position:relative;overflow:hidden;
-  min-height:calc(100svh - 72px);
+  min-height:calc((100svh - 72px) * .8);
   display:flex;align-items:center;
   background:var(--marmol);
 }
@@ -223,18 +223,19 @@ header{
 }
 .hero-contenido{
   position:relative;z-index:1;width:100%;
-  padding-top:clamp(3rem,8vw,6rem);padding-bottom:clamp(3rem,8vw,6rem);
+  padding:clamp(2.6rem,7vw,5rem) clamp(1.15rem,4vw,2.5rem) clamp(2.6rem,7vw,5rem) clamp(1.15rem,5.5vw,4.5rem);
 }
-.hero-texto{max-width:36rem}
+.hero-texto{max-width:33rem}
+/* Título oficial en oro (imagen). El alt conserva el texto para SEO y lectores. */
+.hero-titulo{margin:1rem 0 1.25rem;line-height:0}
+.hero-titulo img{width:100%;max-width:33rem;height:auto;filter:drop-shadow(0 6px 14px rgba(120,90,20,.18))}
 .hero .marca{
   font-family:var(--sans);font-weight:700;font-size:.78rem;letter-spacing:.32em;
   text-transform:uppercase;color:var(--oro-osc);
   display:flex;align-items:center;gap:.9rem;
 }
 .hero .marca::before{content:"";width:30px;height:1px;background:var(--grad-oro);flex:none}
-.hero h1{font-size:clamp(2.7rem,5.6vw,4.6rem);font-weight:600;margin:1rem 0 1.2rem;color:var(--carbon)}
-.hero h1 em{font-style:italic;color:var(--oro-osc)}
-.hero p.sub{font-size:1.06rem;color:#3F3B31;max-width:31rem;margin-bottom:1.9rem}
+.hero p.sub{font-size:1.06rem;color:#3F3B31;max-width:33rem;margin-bottom:1.9rem}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:.9rem;margin-bottom:2.1rem}
 .hero-datos{
   display:flex;flex-wrap:wrap;gap:.4rem 0;list-style:none;
@@ -249,7 +250,7 @@ header{
 }
 @media(max-width:860px){
   /* Móvil: la joyería arriba, el titular emerge del mármol abajo */
-  .hero{min-height:calc(100svh - 72px);align-items:flex-end}
+  .hero{min-height:calc((100svh - 72px) * .8);align-items:flex-end}
   .hero-bg img{object-position:74% 22%}
   .hero-velo{
     background:linear-gradient(0deg,
@@ -259,8 +260,8 @@ header{
       rgba(251,250,247,.10) 74%,
       rgba(251,250,247,0) 100%);
   }
-  .hero-contenido{padding-top:46svh;padding-bottom:2.4rem}
-  .hero h1{font-size:clamp(2.5rem,10.5vw,3.4rem);margin:.8rem 0 1rem}
+  .hero-contenido{padding:26svh clamp(1.15rem,4vw,2.5rem) 2.2rem}
+  .hero-titulo{margin:.8rem 0 1rem}
   .hero p.sub{font-size:1rem;margin-bottom:1.5rem}
   .hero-ctas{gap:.7rem;margin-bottom:1.5rem}
   .hero-ctas .btn{flex:1 1 46%;padding:.9rem 1rem}
@@ -600,10 +601,10 @@ body.modal-abierto .barra-movil{transform:translateY(110%)}
     </picture>
   </div>
   <div class="hero-velo" aria-hidden="true"></div>
-  <div class="contenedor hero-contenido">
+  <div class="hero-contenido">
     <div class="hero-texto">
       <p class="marca">J &amp; Y Jewelry</p>
-      <h1>Tu oro al <em>mejor precio</em> en Texas</h1>
+      <h1 class="hero-titulo"><img src="assets/titulo-tu-oro.webp" alt="Tu oro al mejor precio en Texas" width="1300" height="450" fetchpriority="high"></h1>
       <p class="sub">Compramos oro y plata en Dallas y alrededores. Evaluamos tus piezas con transparencia y vamos hasta tu hogar o lugar de preferencia.</p>
       <div class="hero-ctas">
         <button class="btn btn-oro" data-abrir-modal>Solicitar evaluación</button>
