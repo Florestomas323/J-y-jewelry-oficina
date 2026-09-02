@@ -174,13 +174,13 @@ header{
 .logo{display:flex;align-items:center;text-decoration:none}
 .logo img{height:64px;width:auto}
 @media(max-width:960px){:root{--h-header:78px}.logo img{height:58px}}
-.nav-links{display:flex;align-items:center;gap:1.7rem;list-style:none}
+.nav-links{display:flex;align-items:center;gap:clamp(1rem,2vw,1.8rem);list-style:none}
 .nav-links a{
-  text-decoration:none;font-size:.86rem;font-weight:600;color:#3C382D;
+  text-decoration:none;font-size:.86rem;font-weight:600;color:#3C382D;white-space:nowrap;
   padding:.35rem 0;border-bottom:1.5px solid transparent;transition:color var(--trans),border-color var(--trans);
 }
 .nav-links a:hover{color:var(--oro-osc);border-color:var(--oro-osc)}
-.nav .btn{padding:.68rem 1.35rem;font-size:.82rem;min-height:42px}
+.nav .btn{padding:.68rem 1.35rem;font-size:.82rem;min-height:42px;white-space:nowrap}
 .menu-btn{display:none;background:none;border:none;width:44px;height:44px;border-radius:10px;align-items:center;justify-content:center}
 .menu-btn svg{width:26px;height:26px;stroke:var(--carbon)}
 @media(max-width:960px){
@@ -227,8 +227,8 @@ header{
     rgba(251,250,247,0) 80%);
 }
 .hero-contenido{
-  position:relative;z-index:1;width:100%;
-  padding:clamp(2.6rem,7vw,5rem) clamp(1.15rem,4vw,2.5rem) clamp(2.6rem,7vw,5rem) clamp(1.15rem,5.5vw,4.5rem);
+  position:relative;z-index:1;width:100%;max-width:1120px;margin:0 auto;
+  padding:clamp(2.6rem,7vw,5rem) clamp(1.15rem,4vw,2.5rem);
 }
 .hero-texto{max-width:33rem}
 /* Título oficial en oro (imagen). El alt conserva el texto para SEO y lectores. */
@@ -266,15 +266,17 @@ header{
       rgba(251,250,247,.12) 86%,
       rgba(251,250,247,0) 100%);
   }
-  .hero-contenido{padding:4svh clamp(1.15rem,4vw,2.5rem) 9svh}
+  .hero-contenido{padding:2svh clamp(1.15rem,4vw,2.5rem) 11svh}
   .hero .marca{font-size:.7rem;letter-spacing:.28em}
-  .hero-titulo{margin:.5rem 0 .85rem}
+  /* El arte del título trae aire a la izquierda (la línea decorativa);
+     el margen negativo alinea "TU ORO" con el borde del texto. */
+  .hero-titulo{margin:.45rem 0 1rem -7%}
   .hero-titulo img{max-width:79%}
-  .hero p.sub{font-size:.95rem;line-height:1.55;margin-bottom:1.15rem}
-  .hero-ctas{gap:.55rem;margin-bottom:.55rem}
+  .hero p.sub{font-size:.95rem;line-height:1.55;margin-bottom:1.3rem}
+  .hero-ctas{gap:.55rem;margin-bottom:.7rem}
   .hero-ctas .btn{flex:1 1 46%;padding:.78rem .9rem;min-height:44px;font-size:.88rem}
-  .hero-nota{margin-bottom:1rem;font-size:.72rem}
-  .hero-checks{flex-direction:column;gap:.3rem}
+  .hero-nota{margin-bottom:1.25rem;font-size:.72rem}
+  .hero-checks{flex-direction:column;gap:.45rem}
   .hero-checks li{font-size:.8rem}
   .hero-checks svg{width:14px;height:14px}
 }
@@ -656,12 +658,9 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
       <img src="assets/logo-jy-640.webp" alt="J & Y Jewelry LLC — Compramos oro y plata" width="640" height="445">
     </a>
     <ul class="nav-links">
-      <li><a href="#inicio">Inicio</a></li>
       <li><a href="#que-compramos">Qué compramos</a></li>
       <li><a href="#relojes">Relojes</a></li>
       <li><a href="#como-funciona">Cómo funciona</a></li>
-      <li><a href="#nosotros">Nosotros</a></li>
-      <li><a href="#faq">Preguntas frecuentes</a></li>
       <li><a href="agendar.html">Agendar cita</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
