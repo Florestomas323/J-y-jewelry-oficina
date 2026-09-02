@@ -20,7 +20,10 @@ window.NEGOCIO = {
      este número tenga WhatsApp. Si el negocio lo confirma,
      cambiar whatsappConfirmado a true. */
   telefono:            "12148935824",
-  whatsappConfirmado:  false,
+
+  /* WhatsApp CONFIRMADO por el cliente en este mismo número. */
+  whatsappConfirmado:  true,
+  whatsappMensaje:     "Hola J & Y Jewelry, quiero cotizar mis piezas de oro o plata.",
 
   email:   "cubaromero88@hotmail.com",
 
@@ -60,6 +63,10 @@ window.NEGOCIO = {
     return "+" + tel;
   })();
 
+  /* Enlace directo de WhatsApp con mensaje precargado */
+  N.wa = "https://wa.me/" + tel + (N.whatsappMensaje
+    ? "?text=" + encodeURIComponent(N.whatsappMensaje) : "");
+
   /* ¿Firebase está configurado de verdad? */
   N.firebaseListo = !!(N.firebase &&
     N.firebase.apiKey && N.firebase.apiKey.indexOf("PEGAR") === -1 &&
@@ -80,6 +87,11 @@ window.NEGOCIO = {
       document.querySelectorAll("[data-email]").forEach(function(el){
         el.textContent = N.email;
       });
+      if(N.whatsappConfirmado){
+        document.querySelectorAll("a[data-ws]").forEach(function(a){ a.href = N.wa; });
+      }else{
+        document.querySelectorAll("[data-ws]").forEach(function(a){ a.style.display = "none"; });
+      }
     }catch(e){}
   }
   if(document.readyState === "loading")
