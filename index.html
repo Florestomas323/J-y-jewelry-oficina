@@ -93,6 +93,7 @@
   --radio: 14px;
   --sombra: 0 18px 50px -22px rgba(23,21,15,.22);
   --trans: .28s cubic-bezier(.4,0,.2,1);
+  --h-header: 86px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -151,7 +152,7 @@ section{position:relative}
 }
 .btn-oro{
   background:var(--grad-oro);background-size:200% 100%;background-position:0 0;
-  color:#241C08;box-shadow:0 10px 26px -12px rgba(138,107,36,.55);
+  color:#241C08;box-shadow:0 8px 20px -14px rgba(138,107,36,.42);
 }
 .btn-oro:hover{background-position:100% 0;transform:translateY(-1px)}
 .btn-linea{border-color:var(--carbon);color:var(--carbon);background:transparent}
@@ -166,9 +167,10 @@ header{
   background:rgba(251,250,247,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid var(--linea);
 }
-.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:72px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:var(--h-header)}
 .logo{display:flex;align-items:center;text-decoration:none}
-.logo img{height:52px;width:auto}
+.logo img{height:64px;width:auto}
+@media(max-width:960px){:root{--h-header:78px}.logo img{height:58px}}
 .nav-links{display:flex;align-items:center;gap:1.7rem;list-style:none}
 .nav-links a{
   text-decoration:none;font-size:.86rem;font-weight:600;color:#3C382D;
@@ -206,7 +208,7 @@ header{
 /* ---- Hero: fotografía a sangre completa, texto sobre el mármol ---- */
 .hero{
   position:relative;overflow:hidden;
-  min-height:calc((100svh - 72px) * .8);
+  min-height:calc((100svh - var(--h-header)) * .8);
   display:flex;align-items:center;
   background:var(--marmol);
 }
@@ -228,7 +230,7 @@ header{
 .hero-texto{max-width:33rem}
 /* Título oficial en oro (imagen). El alt conserva el texto para SEO y lectores. */
 .hero-titulo{margin:1rem 0 1.25rem;line-height:0}
-.hero-titulo img{width:100%;max-width:33rem;height:auto;filter:drop-shadow(0 6px 14px rgba(120,90,20,.18))}
+.hero-titulo img{width:100%;max-width:33rem;height:auto;filter:drop-shadow(0 3px 9px rgba(120,90,20,.12))}
 .hero .marca{
   font-family:var(--sans);font-weight:700;font-size:.78rem;letter-spacing:.32em;
   text-transform:uppercase;color:var(--oro-osc);
@@ -236,13 +238,11 @@ header{
 }
 .hero .marca::before{content:"";width:30px;height:1px;background:var(--grad-oro);flex:none}
 .hero p.sub{font-size:1.06rem;color:#3F3B31;max-width:33rem;margin-bottom:1.9rem}
-.hero-ctas{display:flex;flex-wrap:wrap;gap:.9rem;margin-bottom:2.1rem}
-.hero-datos{
-  display:flex;flex-wrap:wrap;gap:.4rem 0;list-style:none;
-  font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A564A;
-}
-.hero-datos li{display:flex;align-items:center}
-.hero-datos li+li::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--oro);margin:0 .85rem}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:.9rem;margin-bottom:.8rem}
+.hero-nota{font-size:.76rem;color:#8A8577;letter-spacing:.05em;margin-bottom:1.7rem}
+.hero-checks{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;list-style:none}
+.hero-checks li{display:flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:600;color:#3F3B31}
+.hero-checks svg{width:16px;height:16px;flex:none;stroke:var(--oro-osc);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
 /* Veta dorada al pie del hero */
 .hero-linea{
   position:absolute;left:0;right:0;bottom:0;height:1px;
@@ -250,7 +250,7 @@ header{
 }
 @media(max-width:860px){
   /* Móvil: la joyería arriba, el titular emerge del mármol abajo */
-  .hero{min-height:calc((100svh - 72px) * .8);align-items:flex-end}
+  .hero{min-height:calc((100svh - var(--h-header)) * .8);align-items:flex-end}
   .hero-bg img{object-position:74% 22%}
   .hero-velo{
     background:linear-gradient(0deg,
@@ -263,16 +263,17 @@ header{
   .hero-contenido{padding:26svh clamp(1.15rem,4vw,2.5rem) 2.2rem}
   .hero-titulo{margin:.8rem 0 1rem}
   .hero p.sub{font-size:1rem;margin-bottom:1.5rem}
-  .hero-ctas{gap:.7rem;margin-bottom:1.5rem}
+  .hero-ctas{gap:.7rem;margin-bottom:.7rem}
   .hero-ctas .btn{flex:1 1 46%;padding:.9rem 1rem}
-  .hero-datos{font-size:.7rem}
+  .hero-nota{margin-bottom:1.3rem}
+  .hero-checks{flex-direction:column;gap:.45rem}
 }
 
 /* ---- Franja de confianza ---- */
-.franja{background:var(--carbon);color:#EFEADD;padding:1.05rem 0}
+.franja{background:var(--carbon);color:#EFEADD;padding:.7rem 0}
 .franja ul{
   list-style:none;display:flex;flex-wrap:wrap;justify-content:center;
-  gap:.55rem 0;font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  gap:.45rem 0;font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
 }
 .franja li{display:flex;align-items:center}
 .franja li+li::before{content:"";width:5px;height:5px;transform:rotate(45deg);background:var(--oro-cl);margin:0 1.15rem;flex:none}
@@ -605,16 +606,16 @@ body.modal-abierto .barra-movil{transform:translateY(110%)}
     <div class="hero-texto">
       <p class="marca">J &amp; Y Jewelry</p>
       <h1 class="hero-titulo"><img src="assets/titulo-tu-oro.webp" alt="Tu oro al mejor precio en Texas" width="1300" height="450" fetchpriority="high"></h1>
-      <p class="sub">Compramos oro y plata en Dallas y alrededores. Evaluamos tus piezas con transparencia y vamos hasta tu hogar o lugar de preferencia.</p>
+      <p class="sub">Compramos oro y plata en Dallas y alrededores. Evaluamos tus piezas con total transparencia y vamos hasta ti. Recibe una oferta clara, sin compromiso.</p>
       <div class="hero-ctas">
-        <button class="btn btn-oro" data-abrir-modal>Solicitar evaluación</button>
+        <button class="btn btn-oro" data-abrir-modal>Cotiza tu oro</button>
         <a class="btn btn-linea" href="tel:+12148935824">Llamar ahora</a>
       </div>
-      <ul class="hero-datos">
-        <li>Pago rápido</li>
-        <li>Servicio a domicilio</li>
-        <li>Dallas y alrededores</li>
-        <li>Por cita previa</li>
+      <p class="hero-nota">Sin compromiso · Atención por cita</p>
+      <ul class="hero-checks">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.5 12.5 5 5 10-11"/></svg>Evaluación sin compromiso</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.5 12.5 5 5 10-11"/></svg>Vamos hasta ti</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.5 12.5 5 5 10-11"/></svg>Pago rápido</li>
       </ul>
     </div>
   </div>
@@ -628,7 +629,7 @@ body.modal-abierto .barra-movil{transform:translateY(110%)}
       <li>Servicio a domicilio</li>
       <li>Evaluación transparente</li>
       <li>Pago rápido</li>
-      <li>Dallas y alrededores</li>
+      <li>Dallas&#8211;Fort Worth</li>
     </ul>
   </div>
 </div>
