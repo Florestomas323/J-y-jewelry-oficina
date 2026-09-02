@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /panel
+Disallow: /panel.html
 
 Sitemap: https://SUDOMINIO.com/sitemap.xml

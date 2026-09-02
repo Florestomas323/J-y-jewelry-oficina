@@ -37,12 +37,12 @@ window.NEGOCIO = {
      Mientras queden los valores PEGAR-*, el formulario ofrece
      llamada y email como alternativa y no intenta guardar. */
   firebase: {
-    apiKey:            "PEGAR-API-KEY",
-    authDomain:        "jy-jewelry.firebaseapp.com",
-    projectId:         "PEGAR-PROJECT-ID",
-    storageBucket:     "jy-jewelry.firebasestorage.app",
-    messagingSenderId: "000000000000",
-    appId:             "PEGAR-APP-ID"
+    apiKey:            "AIzaSyCLp0k3i0uC0kjjppJp4zzRciaNhRzRPf8",
+    authDomain:        "oro-jesus-romero.firebaseapp.com",
+    projectId:         "oro-jesus-romero",
+    storageBucket:     "oro-jesus-romero.firebasestorage.app",
+    messagingSenderId: "720427931003",
+    appId:             "1:720427931003:web:4c53e2e94bc6966e9419de"
   }
 };
 

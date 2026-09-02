@@ -13,6 +13,7 @@ plantilla Oficina Digital, con identidad completamente nueva.
 | `privacidad.html` / `terminos.html` | Avisos legales propios de J & Y (nuevos, no copiados) |
 | `firestore-rules.txt` | Reglas de seguridad para el proyecto Firebase de J & Y |
 | `manifest.webmanifest`, `robots.txt`, `sitemap.xml`, `vercel.json` | Infraestructura de despliegue y SEO |
+| `panel.html` | Panel privado de solicitudes (login con Google) |
 | `assets/` | Logo, hero, textura mármol+oro |
 
 ## Antes de publicar — checklist
@@ -34,8 +35,16 @@ plantilla Oficina Digital, con identidad completamente nueva.
 Colección `leads`: nombre, teléfono, ciudad, metal, lugar, mensaje,
 fotos (máx. 3, comprimidas en base64), estado (`nuevo`), origen, fecha.
 Estados sugeridos: nuevo → contactado → cita coordinada → completado.
-Por ahora se gestionan desde la consola de Firebase; un panel admin
-propio queda como fase 2.
+Se gestionan desde `panel.html` (tudominio.com/panel): login con
+Google, lista en tiempo real, cambio de estado, llamar/WhatsApp con
+un toque, ver fotos, buscar, filtrar y exportar CSV.
+
+Para activarlo:
+1. Firebase → Authentication → Sign-in method → activar **Google**.
+2. Firebase → Authentication → Settings → Dominios autorizados →
+   agregar el dominio del sitio.
+3. En `firestore-rules.txt`, poner el correo de Google del cliente en
+   `CORREO-ADMIN@gmail.com` y publicar las reglas.
 
 Medición de embudo: cada clic en Cotizar/Llamar/WhatsApp/Email/TikTok
 y cada lead enviado se registra en la colección `clicks` (solo cuando

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<script src="config.js"></script>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#17150F">
+<title>Panel — J &amp; Y Jewelry</title>
+<link rel="icon" type="image/png" href="favicon.png?v=1">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1">
+<meta name="apple-mobile-web-app-title" content="Panel J &amp; Y">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --marmol:#FBFAF7; --marfil:#F4EFE6; --carbon:#17150F; --carbon-2:#201D15;
+  --piedra:#8D897F; --linea:#E7E1D4; --oro:#B08A33; --oro-osc:#8A6B24; --oro-cl:#D9BC6E;
+  --grad-oro:linear-gradient(115deg,#8A6B24 0%,#C9A24B 38%,#EBD08A 52%,#C9A24B 66%,#8A6B24 100%);
+  --serif:"Cormorant Garamond",Georgia,serif; --sans:"Manrope",-apple-system,"Segoe UI",sans-serif;
+  --ok:#2E7D53; --alerta:#A33A2A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:var(--marmol);color:var(--carbon);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:var(--oro-osc)}
+:focus-visible{outline:2px solid var(--oro-osc);outline-offset:2px;border-radius:6px}
+.oculto{display:none!important}
+
+/* ---------- Login ---------- */
+.login{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:var(--carbon)}
+.login-caja{background:var(--marmol);border-radius:20px;padding:2.4rem 2rem;max-width:400px;width:100%;text-align:center;border-top:3px solid var(--oro)}
+.login-caja h1{font-family:var(--serif);font-size:2rem;margin-bottom:.2rem}
+.login-caja .sub{color:var(--piedra);font-size:.88rem;margin-bottom:1.8rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;font-weight:700;font-size:.9rem;
+  padding:.85rem 1.6rem;border-radius:999px;border:1px solid transparent;text-decoration:none;min-height:46px;
+  transition:transform .2s,background .2s,color .2s,border-color .2s}
+.btn-oro{background:var(--grad-oro);background-size:200% 100%;color:#241C08}
+.btn-oro:hover{background-position:100% 0}
+.btn-linea{border-color:var(--linea);background:#fff;color:var(--carbon)}
+.btn-linea:hover{border-color:var(--oro)}
+.btn[disabled]{opacity:.55;cursor:wait}
+.login .btn{width:100%}
+.msg{margin-top:1rem;font-size:.84rem;font-weight:600;display:none}
+.msg.show{display:block}
+.msg.err{color:var(--alerta)}
+
+/* ---------- Cargando ---------- */
+.cargando{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--piedra);font-size:.9rem}
+.spin{width:34px;height:34px;border:3px solid var(--linea);border-top-color:var(--oro);border-radius:50%;animation:g .8s linear infinite}
+@keyframes g{to{transform:rotate(360deg)}}
+
+/* ---------- Cabecera ---------- */
+header{position:sticky;top:0;z-index:20;background:var(--carbon);color:#F2EDE1;border-bottom:1px solid rgba(217,188,110,.2)}
+.head{max-width:1000px;margin:0 auto;padding:.85rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.head .marca{font-family:var(--serif);font-size:1.35rem;color:#FBF8F0;line-height:1.1}
+.head .marca span{display:block;font-family:var(--sans);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--oro-cl)}
+.head-der{display:flex;align-items:center;gap:.6rem}
+.head-der img{width:32px;height:32px;border-radius:50%;border:1px solid rgba(217,188,110,.5)}
+.salir{background:none;border:1px solid rgba(255,255,255,.3);color:#F2EDE1;border-radius:999px;padding:.45rem 1rem;font-size:.78rem;font-weight:600}
+.salir:hover{background:rgba(255,255,255,.1)}
+
+.env{max-width:1000px;margin:0 auto;padding:1.2rem 1.1rem 4rem}
+
+/* ---------- Métricas ---------- */
+.metricas{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.4rem}
+@media(max-width:640px){.metricas{grid-template-columns:repeat(2,1fr)}}
+.metrica{background:#fff;border:1px solid var(--linea);border-radius:13px;padding:.95rem .9rem}
+.metrica .n{font-family:var(--serif);font-size:1.9rem;line-height:1.1}
+.metrica .t{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--piedra);margin-top:.15rem}
+.metrica.destacada{background:linear-gradient(150deg,#FFFDF7,#F7EED8);border-color:#E4D5AC}
+.metrica.destacada .n{color:var(--oro-osc)}
+
+/* ---------- Pestañas ---------- */
+.tabs{display:flex;gap:.4rem;border-bottom:1px solid var(--linea);margin-bottom:1.2rem;overflow-x:auto}
+.tabs button{background:none;border:none;padding:.7rem .9rem;font-size:.88rem;font-weight:600;color:var(--piedra);
+  border-bottom:2px solid transparent;white-space:nowrap}
+.tabs button.activa{color:var(--carbon);border-color:var(--oro)}
+
+/* ---------- Filtros ---------- */
+.filtros{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;align-items:center}
+.chip{border:1px solid var(--linea);background:#fff;border-radius:999px;padding:.45rem 1rem;font-size:.82rem;font-weight:600;color:#4A463B}
+.chip.activo{background:var(--carbon);color:#F2EDE1;border-color:var(--carbon)}
+.buscador{flex:1;min-width:170px;padding:.6rem .95rem;border:1px solid var(--linea);border-radius:999px;background:#fff;font-size:.88rem}
+.buscador:focus{outline:none;border-color:var(--oro)}
+
+/* ---------- Lead ---------- */
+.lead{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:1.1rem 1.1rem .95rem;margin-bottom:.8rem;position:relative}
+.lead.nuevo{border-left:3px solid var(--oro)}
+.lead-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;flex-wrap:wrap}
+.lead h3{font-family:var(--serif);font-size:1.4rem;line-height:1.2}
+.lead .fecha{font-size:.72rem;color:var(--piedra);white-space:nowrap}
+.etiqueta{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:.25rem .6rem;border-radius:999px;margin-top:.3rem}
+.e-nuevo{background:#F7EED8;color:var(--oro-osc)}
+.e-contactado{background:#E6EDF5;color:#33567F}
+.e-cita{background:#E9F2EA;color:var(--ok)}
+.e-completado{background:#ECEAE4;color:#5A564A}
+.datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem 1rem;margin:.85rem 0}
+.dato .k{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--piedra)}
+.dato .v{font-size:.92rem;font-weight:600;color:#3C382D;word-break:break-word}
+.mensaje{background:var(--marfil);border-radius:10px;padding:.7rem .85rem;font-size:.88rem;color:#4A463B;margin-bottom:.8rem}
+.fotos{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.85rem}
+.fotos img{width:74px;height:74px;object-fit:cover;border-radius:9px;border:1px solid var(--linea);cursor:zoom-in}
+.acciones{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;border-top:1px solid var(--linea);padding-top:.8rem}
+.acciones .btn{padding:.55rem 1rem;font-size:.8rem;min-height:40px}
+.acciones select{border:1px solid var(--linea);border-radius:999px;padding:.55rem .9rem;background:#fff;font-size:.8rem;font-weight:600;min-height:40px}
+.acciones select:focus{outline:none;border-color:var(--oro)}
+.borrar{margin-left:auto;background:none;border:none;color:var(--piedra);font-size:.78rem;font-weight:600;padding:.5rem}
+.borrar:hover{color:var(--alerta)}
+
+.vacio{text-align:center;padding:3rem 1rem;color:var(--piedra)}
+.vacio .icono{font-family:var(--serif);font-size:2.6rem;color:var(--oro);margin-bottom:.4rem}
+
+/* ---------- Conversión ---------- */
+.barra-dato{margin-bottom:.9rem}
+.barra-dato .fila{display:flex;justify-content:space-between;font-size:.85rem;font-weight:600;margin-bottom:.3rem}
+.barra-dato .riel{height:9px;background:var(--marfil);border-radius:999px;overflow:hidden}
+.barra-dato .relleno{height:100%;background:var(--grad-oro);border-radius:999px;transition:width .5s}
+.aviso{background:var(--marfil);border-radius:12px;padding:1rem 1.1rem;font-size:.86rem;color:#4A463B;margin-bottom:1.2rem}
+
+/* ---------- Visor de foto ---------- */
+.visor{position:fixed;inset:0;z-index:60;background:rgba(23,21,15,.9);display:flex;align-items:center;justify-content:center;padding:1.2rem}
+.visor img{max-width:100%;max-height:88dvh;border-radius:10px}
+.visor button{position:absolute;top:1rem;right:1rem;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:1.3rem}
+
+.aviso-toast{position:fixed;left:50%;bottom:1.4rem;transform:translate(-50%,140%);background:var(--carbon);color:#F2EDE1;
+  padding:.8rem 1.4rem;border-radius:999px;font-size:.85rem;font-weight:600;z-index:70;transition:transform .3s;max-width:90vw;text-align:center}
+.aviso-toast.ver{transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div class="login" id="vLogin">
+  <div class="login-caja">
+    <h1>J &amp; Y Jewelry</h1>
+    <p class="sub">Panel de solicitudes</p>
+    <button class="btn btn-oro" id="btnEntrar">Entrar con Google</button>
+    <p class="msg" id="loginMsg"></p>
+  </div>
+</div>
+
+<!-- ===== CARGANDO ===== -->
+<div class="cargando oculto" id="vCargando">
+  <div class="spin"></div>
+  <p id="txtCargando">Cargando solicitudes…</p>
+</div>
+
+<!-- ===== PANEL ===== -->
+<div class="oculto" id="vPanel">
+  <header>
+    <div class="head">
+      <div class="marca">J &amp; Y Jewelry<span>Panel de solicitudes</span></div>
+      <div class="head-der">
+        <img id="fotoUsuario" alt="" style="display:none">
+        <button class="salir" id="btnSalir">Salir</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="env">
+    <div class="metricas">
+      <div class="metrica destacada"><div class="n" id="mNuevos">0</div><div class="t">Nuevos</div></div>
+      <div class="metrica"><div class="n" id="mSemana">0</div><div class="t">Últimos 7 días</div></div>
+      <div class="metrica"><div class="n" id="mCitas">0</div><div class="t">Citas coordinadas</div></div>
+      <div class="metrica"><div class="n" id="mTotal">0</div><div class="t">Total</div></div>
+    </div>
+
+    <div class="tabs">
+      <button class="activa" data-tab="leads">Solicitudes</button>
+      <button data-tab="conversion">Conversión</button>
+    </div>
+
+    <!-- Solicitudes -->
+    <section id="tabLeads">
+      <div class="filtros">
+        <button class="chip activo" data-estado="todos">Todas</button>
+        <button class="chip" data-estado="nuevo">Nuevas</button>
+        <button class="chip" data-estado="contactado">Contactadas</button>
+        <button class="chip" data-estado="cita">Con cita</button>
+        <button class="chip" data-estado="completado">Completadas</button>
+        <input class="buscador" id="buscar" type="search" placeholder="Buscar nombre, teléfono o ciudad…" aria-label="Buscar solicitudes">
+      </div>
+      <div id="lista"></div>
+      <div style="text-align:center;margin-top:1.4rem">
+        <button class="btn btn-linea" id="btnCsv">Descargar CSV</button>
+      </div>
+    </section>
+
+    <!-- Conversión -->
+    <section id="tabConversion" class="oculto">
+      <p class="aviso">Cuántas veces se tocó cada botón de la página. Sirve para saber por dónde te contacta la gente y qué canal conviene reforzar.</p>
+      <div id="conversion"></div>
+    </section>
+  </div>
+</div>
+
+<div class="visor oculto" id="visor">
+  <button id="cerrarVisor" aria-label="Cerrar">✕</button>
+  <img id="visorImg" alt="Foto de las piezas">
+</div>
+<div class="aviso-toast" id="toast" role="status"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
+         setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, doc, updateDoc, deleteDoc, onSnapshot,
+         query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const N = window.NEGOCIO || {};
+const $ = id => document.getElementById(id);
+
+if(!N.firebaseListo){
+  $("loginMsg").className = "msg show err";
+  $("loginMsg").textContent = "Firebase todavía no está configurado en config.js.";
+  $("btnEntrar").disabled = true;
+}
+
+const app  = initializeApp(N.firebase);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+const ESTADOS = {
+  nuevo:      {txt:"Nueva",            clase:"e-nuevo"},
+  contactado: {txt:"Contactada",       clase:"e-contactado"},
+  cita:       {txt:"Cita coordinada",  clase:"e-cita"},
+  completado: {txt:"Completada",       clase:"e-completado"}
+};
+
+let LEADS = [], filtroEstado = "todos", textoBusca = "";
+
+/* ---------- utilidades ---------- */
+function vista(cual){
+  $("vLogin").classList.toggle("oculto", cual!=="login");
+  $("vCargando").classList.toggle("oculto", cual!=="cargando");
+  $("vPanel").classList.toggle("oculto", cual!=="panel");
+}
+function esc(t){
+  return String(t==null?"":t).replace(/[&<>"']/g, c =>
+    ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function telBonito(t){
+  const d = String(t||"").replace(/\D/g,"");
+  const n = (d.length===11 && d[0]==="1") ? d.slice(1) : d;
+  return n.length===10 ? `(${n.slice(0,3)}) ${n.slice(3,6)}-${n.slice(6)}` : (d||"—");
+}
+function fechaTexto(f){
+  if(!f) return "—";
+  const d = f.toDate ? f.toDate() : new Date(f);
+  if(isNaN(d)) return "—";
+  const dif = (Date.now() - d.getTime())/86400000;
+  const hora = d.toLocaleTimeString("es-MX",{hour:"numeric",minute:"2-digit"});
+  if(dif < 1)  return "Hoy · " + hora;
+  if(dif < 2)  return "Ayer · " + hora;
+  return d.toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}) + " · " + hora;
+}
+let tToast;
+function toast(t){
+  const el = $("toast"); el.textContent = t; el.classList.add("ver");
+  clearTimeout(tToast); tToast = setTimeout(()=>el.classList.remove("ver"), 2600);
+}
+
+/* ---------- login ---------- */
+setPersistence(auth, browserLocalPersistence).catch(()=>{});
+const proveedor = new GoogleAuthProvider();
+proveedor.setCustomParameters({ prompt:"select_account" });
+
+$("btnEntrar").addEventListener("click", async ()=>{
+  const b = $("btnEntrar"); b.disabled = true; $("loginMsg").className = "msg";
+  try{ await signInWithPopup(auth, proveedor); }
+  catch(e){
+    const m = $("loginMsg"); m.className = "msg show err";
+    if(e.code==="auth/popup-closed-by-user" || e.code==="auth/cancelled-popup-request") m.className="msg";
+    else if(e.code==="auth/network-request-failed") m.textContent = "Sin conexión. Revisa tu internet.";
+    else if(e.code==="auth/unauthorized-domain") m.textContent = "Este dominio no está autorizado en Firebase (Authentication → Settings → Dominios autorizados).";
+    else if(e.code==="auth/operation-not-allowed") m.textContent = "Falta activar Google en Firebase (Authentication → Sign-in method).";
+    else m.textContent = "No pudimos iniciar sesión. Inténtalo otra vez.";
+  } finally { b.disabled = false; }
+});
+$("btnSalir").addEventListener("click", ()=> signOut(auth).catch(()=>{}));
+
+onAuthStateChanged(auth, usuario => {
+  if(!usuario){ vista("login"); return; }
+  if(usuario.photoURL){ $("fotoUsuario").src = usuario.photoURL; $("fotoUsuario").style.display = "block"; }
+  vista("cargando");
+  escucharLeads();
+  escucharClicks();
+});
+
+/* ---------- leads en tiempo real ---------- */
+function escucharLeads(){
+  const q = query(collection(db,"leads"), orderBy("fecha","desc"), limit(500));
+  onSnapshot(q, snap => {
+    LEADS = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    vista("panel");
+    metricas(); pintar();
+  }, err => {
+    // Sin permiso = la cuenta no es la del administrador en las reglas
+    signOut(auth).catch(()=>{});
+    vista("login");
+    const m = $("loginMsg"); m.className = "msg show err";
+    m.textContent = err.code === "permission-denied"
+      ? "Esta cuenta no tiene acceso. Entra con el correo autorizado en las reglas de Firestore."
+      : "No pudimos cargar las solicitudes. Revisa tu conexión.";
+  });
+}
+
+function metricas(){
+  const hace7 = Date.now() - 7*86400000;
+  const enSemana = LEADS.filter(l => {
+    const f = l.fecha && l.fecha.toDate ? l.fecha.toDate().getTime() : 0;
+    return f > hace7;
+  }).length;
+  $("mNuevos").textContent = LEADS.filter(l => (l.estado||"nuevo")==="nuevo").length;
+  $("mSemana").textContent = enSemana;
+  $("mCitas").textContent  = LEADS.filter(l => l.estado==="cita").length;
+  $("mTotal").textContent  = LEADS.length;
+}
+
+function filtrados(){
+  const b = textoBusca.trim().toLowerCase();
+  return LEADS.filter(l => {
+    const est = l.estado || "nuevo";
+    if(filtroEstado !== "todos" && est !== filtroEstado) return false;
+    if(!b) return true;
+    return [l.nombre, l.telefono, l.ciudad, l.lugar, l.mensaje]
+      .some(v => String(v||"").toLowerCase().includes(b));
+  });
+}
+
+function pintar(){
+  const cont = $("lista");
+  const arr = filtrados();
+  if(!arr.length){
+    cont.innerHTML = `<div class="vacio"><div class="icono">◇</div>
+      <p>${LEADS.length ? "Ninguna solicitud coincide con el filtro." : "Todavía no hay solicitudes. Aparecerán aquí en cuanto alguien envíe el formulario."}</p></div>`;
+    return;
+  }
+  cont.innerHTML = arr.map(l => {
+    const est = l.estado || "nuevo";
+    const E = ESTADOS[est] || ESTADOS.nuevo;
+    const tel = String(l.telefono||"").replace(/\D/g,"");
+    const wa = "https://wa.me/" + (tel.length===10 ? "1"+tel : tel) +
+      "?text=" + encodeURIComponent(`Hola ${l.nombre||""}, le escribimos de J & Y Jewelry por su solicitud de evaluación.`);
+    const fotos = Array.isArray(l.fotos) ? l.fotos : [];
+    return `
+    <article class="lead ${est==="nuevo"?"nuevo":""}">
+      <div class="lead-top">
+        <div>
+          <h3>${esc(l.nombre)||"Sin nombre"}</h3>
+          <span class="etiqueta ${E.clase}">${E.txt}</span>
+        </div>
+        <span class="fecha">${fechaTexto(l.fecha)}</span>
+      </div>
+      <div class="datos">
+        <div class="dato"><div class="k">Teléfono</div><div class="v">${telBonito(l.telefono)}</div></div>
+        <div class="dato"><div class="k">Ciudad</div><div class="v">${esc(l.ciudad)||"—"}</div></div>
+        <div class="dato"><div class="k">Qué vende</div><div class="v">${esc(l.metal)||"—"}</div></div>
+        <div class="dato"><div class="k">Lugar preferido</div><div class="v">${esc(l.lugar)||"—"}</div></div>
+      </div>
+      ${l.mensaje ? `<div class="mensaje">${esc(l.mensaje)}</div>` : ""}
+      ${fotos.length ? `<div class="fotos">${fotos.map((f,i)=>`<img src="${f}" alt="Foto ${i+1} de las piezas" data-foto="${i}" data-lead="${l.id}">`).join("")}</div>` : ""}
+      <div class="acciones">
+        <a class="btn btn-oro" href="tel:+${tel.length===10?"1"+tel:tel}">Llamar</a>
+        <a class="btn btn-linea" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>
+        <select data-estado-de="${l.id}" aria-label="Cambiar estado">
+          ${Object.entries(ESTADOS).map(([k,v])=>`<option value="${k}"${k===est?" selected":""}>${v.txt}</option>`).join("")}
+        </select>
+        <button class="borrar" data-borrar="${l.id}">Eliminar</button>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+/* ---------- interacciones de la lista ---------- */
+$("lista").addEventListener("change", async e => {
+  const sel = e.target.closest("[data-estado-de]");
+  if(!sel) return;
+  try{
+    await updateDoc(doc(db,"leads",sel.dataset.estadoDe), { estado: sel.value });
+    toast("Estado actualizado");
+  }catch(err){ toast("No se pudo actualizar"); }
+});
+
+$("lista").addEventListener("click", async e => {
+  const foto = e.target.closest("[data-foto]");
+  if(foto){
+    $("visorImg").src = foto.src;
+    $("visor").classList.remove("oculto");
+    return;
+  }
+  const del = e.target.closest("[data-borrar]");
+  if(del){
+    const l = LEADS.find(x => x.id === del.dataset.borrar);
+    if(!confirm(`¿Eliminar la solicitud de ${l && l.nombre ? l.nombre : "este cliente"}? No se puede deshacer.`)) return;
+    try{ await deleteDoc(doc(db,"leads",del.dataset.borrar)); toast("Solicitud eliminada"); }
+    catch(err){ toast("No se pudo eliminar"); }
+  }
+});
+
+$("cerrarVisor").addEventListener("click", ()=> $("visor").classList.add("oculto"));
+$("visor").addEventListener("click", e => { if(e.target === $("visor")) $("visor").classList.add("oculto"); });
+document.addEventListener("keydown", e => { if(e.key === "Escape") $("visor").classList.add("oculto"); });
+
+document.querySelectorAll("[data-estado]").forEach(c => {
+  c.addEventListener("click", () => {
+    document.querySelectorAll("[data-estado]").forEach(x => x.classList.remove("activo"));
+    c.classList.add("activo");
+    filtroEstado = c.dataset.estado;
+    pintar();
+  });
+});
+$("buscar").addEventListener("input", e => { textoBusca = e.target.value; pintar(); });
+
+document.querySelectorAll("[data-tab]").forEach(b => {
+  b.addEventListener("click", () => {
+    document.querySelectorAll("[data-tab]").forEach(x => x.classList.remove("activa"));
+    b.classList.add("activa");
+    $("tabLeads").classList.toggle("oculto", b.dataset.tab !== "leads");
+    $("tabConversion").classList.toggle("oculto", b.dataset.tab !== "conversion");
+  });
+});
+
+/* ---------- conversión ---------- */
+const NOMBRES_CLICK = {
+  abrir_modal:"Abrió el formulario", lead_enviado:"Envió la solicitud",
+  llamar:"Tocó llamar", whatsapp:"Tocó WhatsApp", email:"Tocó email", tiktok:"Fue al TikTok"
+};
+function escucharClicks(){
+  const q = query(collection(db,"clicks"), orderBy("fecha","desc"), limit(1000));
+  onSnapshot(q, snap => {
+    const cuenta = {};
+    snap.forEach(d => {
+      const t = (d.data().tipo) || "otro";
+      cuenta[t] = (cuenta[t]||0) + 1;
+    });
+    const filas = Object.entries(cuenta).sort((a,b) => b[1]-a[1]);
+    const max = filas.length ? filas[0][1] : 1;
+    $("conversion").innerHTML = filas.length
+      ? filas.map(([k,v]) => `
+        <div class="barra-dato">
+          <div class="fila"><span>${NOMBRES_CLICK[k] || esc(k)}</span><span>${v}</span></div>
+          <div class="riel"><div class="relleno" style="width:${Math.round(v/max*100)}%"></div></div>
+        </div>`).join("")
+      : `<div class="vacio"><div class="icono">◇</div><p>Todavía no hay datos. Se irán registrando conforme la gente use la página.</p></div>`;
+  }, ()=>{ /* silencioso: la sección simplemente queda vacía */ });
+}
+
+/* ---------- CSV ---------- */
+$("btnCsv").addEventListener("click", () => {
+  const arr = filtrados();
+  if(!arr.length){ toast("No hay solicitudes que exportar"); return; }
+  const campo = v => `"${String(v==null?"":v).replace(/"/g,'""')}"`;
+  const filas = [["Fecha","Nombre","Teléfono","Ciudad","Qué vende","Lugar","Mensaje","Estado","Fotos"]];
+  arr.forEach(l => filas.push([
+    fechaTexto(l.fecha), l.nombre, telBonito(l.telefono), l.ciudad, l.metal, l.lugar, l.mensaje,
+    (ESTADOS[l.estado||"nuevo"]||ESTADOS.nuevo).txt,
+    Array.isArray(l.fotos) ? l.fotos.length : 0
+  ].map(campo)));
+  const csv = "\uFEFF" + filas.map(f => f.join(",")).join("\r\n");
+  const url = URL.createObjectURL(new Blob([csv], {type:"text/csv;charset=utf-8"}));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "solicitudes-jy-" + new Date().toISOString().slice(0,10) + ".csv";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
