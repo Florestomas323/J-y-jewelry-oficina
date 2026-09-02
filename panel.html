@@ -256,7 +256,7 @@ header{position:sticky;top:0;z-index:20;background:var(--carbon);color:#F2EDE1;b
         <h3>Todavía no hay reseñas</h3>
         <p>Así se verán cuando lleguen. Estas tres son solo un <strong>ejemplo de diseño</strong> y no se publican en la página:</p>
         <ul id="ejemplosLista"></ul>
-        <p><a href="index.html?demo=resenas" target="_blank" rel="noopener">Ver cómo se vería la sección en la página →</a></p>
+        <p><a href="/?demo=resenas" target="_blank" rel="noopener">Ver cómo se vería la sección en la página →</a></p>
         <p style="margin-top:.6rem">La forma más rápida de conseguir las primeras: manda este mensaje a tus últimos clientes por WhatsApp: <em>“Hola, gracias por confiar en J &amp; Y Jewelry. ¿Nos regalas una reseña de 1 minuto? Es aquí: [tu dominio]/#contacto → Deja tu reseña”</em>.</p>
       </div>
       <details class="form-panel">
@@ -526,7 +526,7 @@ document.querySelectorAll("[data-tab]").forEach(b => {
 /* ---------- conversión ---------- */
 const NOMBRES_CLICK = {
   abrir_modal:"Abrió el formulario", lead_enviado:"Envió la solicitud",
-  llamar:"Tocó llamar", whatsapp:"Tocó WhatsApp", email:"Tocó email", tiktok:"Fue al TikTok", guardar_contacto:"Guardó el contacto"
+  llamar:"Tocó llamar", whatsapp:"Tocó WhatsApp", email:"Tocó email", tiktok:"Fue al TikTok", guardar_contacto:"Guardó el contacto", abrir_resena:"Abrió el formulario de reseña", resena_enviada:"Envió una reseña"
 };
 function escucharClicks(){
   const q = query(collection(db,"clicks"), orderBy("fecha","desc"), limit(1000));

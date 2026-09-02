@@ -6,18 +6,18 @@ plantilla Oficina Digital, con identidad completamente nueva.
 
 ## Archivos
 
-| Archivo | Qué es |
-|---|---|
-| `index.html` | Página completa: hero, confianza, propuesta, qué compramos, cómo funciona, domicilio, pagos, nosotros, FAQ, contacto, modal de leads |
-| `config.js` | ÚNICO archivo de datos del negocio (teléfono, email, dominio, Firebase) |
-| `privacidad.html` / `terminos.html` | Avisos legales propios de J & Y (nuevos, no copiados) |
-| `firestore-rules.txt` | Reglas de seguridad para el proyecto Firebase de J & Y |
-| `manifest.webmanifest`, `robots.txt`, `sitemap.xml`, `vercel.json` | Infraestructura de despliegue y SEO |
-| `panel.html` | Panel privado: solicitudes, agenda, reseñas, conversión (login con Google) |
-| `agendar.html` | Agenda pública de citas a domicilio (lun–sáb, por horas) |
-| `api/notify.js`, `avisar.js`, `package.json` | Avisos por email + push cuando entra lead/cita/reseña |
-| `sw-panel.js` | Service worker del panel para notificaciones push |
-| `assets/` | Logo, hero, textura mármol+oro |
+|Archivo                                                           |Qué es                                                                                                                              |
+|------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+|`index.html`                                                      |Página completa: hero, confianza, propuesta, qué compramos, cómo funciona, domicilio, pagos, nosotros, FAQ, contacto, modal de leads|
+|`config.js`                                                       |ÚNICO archivo de datos del negocio (teléfono, email, dominio, Firebase)                                                             |
+|`privacidad.html` / `terminos.html`                               |Avisos legales propios de J & Y (nuevos, no copiados)                                                                               |
+|`firestore-rules.txt`                                             |Reglas de seguridad para el proyecto Firebase de J & Y                                                                              |
+|`manifest.webmanifest`, `robots.txt`, `sitemap.xml`, `vercel.json`|Infraestructura de despliegue y SEO                                                                                                 |
+|`panel.html`                                                      |Panel privado: solicitudes, agenda, reseñas, conversión (login con Google)                                                          |
+|`agendar.html`                                                    |Agenda pública de citas a domicilio (lun–sáb, por horas)                                                                            |
+|`api/notify.js`, `avisar.js`, `package.json`                      |Avisos por email + push cuando entra lead/cita/reseña                                                                               |
+|`sw-panel.js`                                                     |Service worker del panel para notificaciones push                                                                                   |
+|`assets/`                                                         |Logo, hero, textura mármol+oro                                                                                                      |
 
 ## Antes de publicar — checklist
 
@@ -25,13 +25,13 @@ plantilla Oficina Digital, con identidad completamente nueva.
    (canonical, OG, JSON-LD), `robots.txt`, `sitemap.xml`, `privacidad.html`
    y `terminos.html` con el dominio real.
    `grep -rn "SUDOMINIO" .` debe quedar en cero.
-2. **Firebase**: proyecto `oro-jesus-romero` ya conectado en `config.js`.
+1. **Firebase**: proyecto `oro-jesus-romero` ya conectado en `config.js`.
    Publicar `firestore-rules.txt` (ya trae los dos correos con acceso).
    Mientras Firebase no responda, el formulario ofrece llamada/email
    como alternativa (no falla en silencio).
-3. **Probar en móvil real**: modal, subir fotos, envío, barra inferior,
+1. **Probar en móvil real**: modal, subir fotos, envío, barra inferior,
    menú, llamadas con tap.
-4. Verificar el lead de prueba en Firestore → colección `leads`.
+1. Verificar el lead de prueba en Firestore → colección `leads`.
 
 ## Leads
 
@@ -43,19 +43,20 @@ Google, lista en tiempo real, cambio de estado, llamar/WhatsApp con
 un toque, ver fotos, buscar, filtrar y exportar CSV.
 
 Para activarlo:
+
 1. Firebase → Authentication → Sign-in method → activar **Google**.
-2. Firebase → Authentication → Settings → Dominios autorizados →
+1. Firebase → Authentication → Settings → Dominios autorizados →
    agregar el dominio del sitio.
-3. Publicar `firestore-rules.txt`. Los correos con acceso al panel ya
-   están en la función `esAdmin()`: cubaromero88@hotmail.com y
-   florestomas323@gmail.com. **Volver a publicar las reglas cada vez
+1. Publicar `firestore-rules.txt`. Los correos con acceso al panel ya
+   están en la función `esAdmin()`: [cubaromero88@hotmail.com](mailto:cubaromero88@hotmail.com) y
+   [florestomas323@gmail.com](mailto:florestomas323@gmail.com). **Volver a publicar las reglas cada vez
    que se actualice este archivo.** Para agregar o quitar un correo,
    se edita esa lista y se vuelve a publicar.
    OJO: el login es con Google. Un correo @hotmail.com solo funciona
    si existe una cuenta de Google creada con ese correo
-   (accounts.google.com → Crear cuenta → "Usar mi dirección de correo
-   actual"). Si no, entrar con un Gmail y agregarlo a la lista.
-4. Firestore pedirá crear un índice compuesto la primera vez que la
+   (accounts.google.com → Crear cuenta → “Usar mi dirección de correo
+   actual”). Si no, entrar con un Gmail y agregarlo a la lista.
+1. Firestore pedirá crear un índice compuesto la primera vez que la
    página cargue reseñas (visible + fecha): aceptar el enlace que sale
    en la consola del navegador o crearlo en Firestore → Índices.
 
@@ -65,15 +66,15 @@ Firebase está configurado). Sirve para saber qué canal convierte.
 
 ## Avisos (email + push) — variables de entorno en Vercel
 
-| Variable | Qué es |
-|---|---|
-| `FIREBASE_SERVICE_ACCOUNT` | JSON completo de la cuenta de servicio (Firebase → Configuración → Cuentas de servicio → Generar clave) |
-| `RESEND_API_KEY` | Clave de resend.com (gratis hasta 3,000 correos/mes) |
-| `CORREO_AVISOS` | Correo que recibe los avisos |
-| `VAPID_PUBLICA` / `VAPID_PRIVADA` | Generar con `npx web-push generate-vapid-keys`. La pública también va en `config.js` → `vapidPublica` |
-| `DOMINIO` | `https://tudominio.com` (para el enlace al panel en el correo) |
+|Variable                         |Qué es                                                                                                                                                                                                                                                                |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|`FIREBASE_SERVICE_ACCOUNT`       |JSON completo de la cuenta de servicio (Firebase → Configuración → Cuentas de servicio → Generar clave)                                                                                                                                                               |
+|`RESEND_API_KEY`                 |Clave de resend.com (gratis hasta 3,000 correos/mes). Con el remitente por defecto (`onboarding@resend.dev`) Resend solo entrega al correo dueño de la cuenta; para avisar a otro correo hay que verificar el dominio en Resend y cambiar el `from` en `api/notify.js`|
+|`CORREO_AVISOS`                  |Correo que recibe los avisos                                                                                                                                                                                                                                          |
+|`VAPID_PUBLICA` / `VAPID_PRIVADA`|Generar con `npx web-push generate-vapid-keys`. La pública también va en `config.js` → `vapidPublica`                                                                                                                                                                 |
+|`DOMINIO`                        |`https://tudominio.com` (para el enlace al panel en el correo)                                                                                                                                                                                                        |
 
-Push: en el panel aparece "Activar avisos" cuando `vapidPublica` está puesta.
+Push: en el panel aparece “Activar avisos” cuando `vapidPublica` está puesta.
 En iPhone el panel debe estar agregado a la pantalla de inicio para recibir push.
 
 ## Agenda
@@ -86,7 +87,7 @@ o llamada (botón en el panel con mensaje listo). Cancelar libera el horario.
 
 ## Reseñas
 
-Los clientes las envían desde "Deja tu reseña"; entran ocultas y
+Los clientes las envían desde “Deja tu reseña”; entran ocultas y
 se publican desde el panel (pestaña Reseñas), donde también se pueden
 editar, agregar/quitar fotos (cliente y pieza) o cargar manualmente
 reseñas recibidas por WhatsApp/TikTok. La sección del sitio no aparece
@@ -96,9 +97,9 @@ muestra 3 ejemplos de diseño, marcados como tal y no publicados.
 ## Pendientes (datos no proporcionados)
 
 - Dominio definitivo.
-- ~~WhatsApp~~ CONFIRMADO: botón flotante, CTA en contacto y en el
+- ~WhatsApp~ CONFIRMADO: botón flotante, CTA en contacto y en el
   fallback del formulario, con mensaje precargado (config.js).
-- ~~Redes~~ TikTok agregado: @romerojesus071 (footer, contacto, schema).
+- ~Redes~ TikTok agregado: @romerojesus071 (footer, contacto, schema).
 - Reseñas reales: el sistema está completo; la sección se activa
   con la primera reseña publicada desde el panel.
 - Método de evaluación de piezas → las respuestas del FAQ son prudentes

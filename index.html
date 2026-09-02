@@ -452,6 +452,7 @@ header{
 /* ---- Reseñas ---- */
 .resenas{display:none}
 .resenas.activa{display:block}
+.resenas.activa .reveal{opacity:1;transform:none}
 .resenas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.4rem}
 @media(max-width:900px){.resenas-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.resenas-grid{grid-template-columns:1fr}}
@@ -661,7 +662,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
       <li><a href="#que-compramos">Qué compramos</a></li>
       <li><a href="#relojes">Relojes</a></li>
       <li><a href="#como-funciona">Cómo funciona</a></li>
-      <li><a href="agendar.html">Agendar cita</a></li>
+      <li><a href="/agendar">Agendar cita</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
     <button class="btn btn-oro" data-abrir-modal>Solicitar evaluación</button>
@@ -684,7 +685,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
       <a href="#como-funciona" data-cerrar-menu>Cómo funciona</a>
       <a href="#nosotros" data-cerrar-menu>Nosotros</a>
       <a href="#faq" data-cerrar-menu>Preguntas frecuentes</a>
-      <a href="agendar.html">Agendar cita</a>
+      <a href="/agendar">Agendar cita</a>
       <a href="#contacto" data-cerrar-menu>Contacto</a>
     </nav>
     <button class="btn btn-oro" data-abrir-modal data-cerrar-menu>Solicitar evaluación</button>
@@ -908,7 +909,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
         <p class="dato-linea"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Únicamente por cita previa</p>
       </div>
       <div class="hero-ctas reveal" style="margin-top:1.9rem">
-        <a class="btn btn-oro" href="agendar.html">Agendar mi cita</a>
+        <a class="btn btn-oro" href="/agendar">Agendar mi cita</a>
         <button class="btn btn-linea" data-abrir-modal>Solicitar evaluación</button>
       </div>
     </div>
@@ -1023,7 +1024,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     <p class="sub reveal">Conoce cuánto pueden valer tus piezas.</p>
     <div class="hero-ctas reveal">
       <button class="btn btn-oro" data-abrir-modal>Solicitar evaluación</button>
-      <a class="btn btn-linea" href="agendar.html">Agendar cita</a>
+      <a class="btn btn-linea" href="/agendar">Agendar cita</a>
       <a class="btn btn-linea" href="tel:+12148935824">Llamar ahora</a>
       <a class="btn btn-linea" data-ws href="https://wa.me/12148935824?text=Hola%20J%20%26%20Y%20Jewelry%2C%20quiero%20cotizar%20mis%20piezas%20de%20oro%20o%20plata." target="_blank" rel="noopener">WhatsApp</a>
       <a class="btn btn-linea" href="mailto:cubaromero88@hotmail.com">Enviar email</a>
@@ -1056,7 +1057,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
   </div>
   <div class="contenedor footer-legal">
     <span>© <span id="anio">2026</span> J &amp; Y Jewelry LLC. Todos los derechos reservados.</span>
-    <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></span>
+    <span><a href="/privacidad">Privacidad</a> · <a href="/terminos">Términos</a></span>
   </div>
 </footer>
 
@@ -1083,7 +1084,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
         <div class="fotos-mini" id="rFotoMini"></div>
       </div>
       <button type="submit" class="btn btn-oro btn-enviar" id="btnEnviarResena">Enviar mi reseña</button>
-      <p class="privacidad-nota">Publicaremos tu nombre como lo escribas y tu ciudad si la incluyes. <a href="privacidad.html">Privacidad</a>.</p>
+      <p class="privacidad-nota">Publicaremos tu nombre como lo escribas y tu ciudad si la incluyes. <a href="/privacidad">Privacidad</a>.</p>
     </form>
     <div class="envio-ok" role="status">
       <div class="sello-ok"><svg viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></svg></div>
@@ -1175,7 +1176,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
       </div>
 
       <button type="submit" class="btn btn-oro btn-enviar" id="btnEnviar">Solicitar mi evaluación</button>
-      <p class="privacidad-nota">Al enviar aceptas nuestra <a href="privacidad.html">política de privacidad</a>. Usamos tus datos solo para contactarte.</p>
+      <p class="privacidad-nota">Al enviar aceptas nuestra <a href="/privacidad">política de privacidad</a>. Usamos tus datos solo para contactarte.</p>
     </form>
 
     <div class="envio-ok" role="status">
@@ -1226,6 +1227,10 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
 
   function abrirModal(e){
     ultimoFoco = document.activeElement;
+    /* si ya se envió una solicitud antes, empezar limpio */
+    if(caja.classList.contains("ok") || caja.classList.contains("alt")){
+      caja.classList.remove("ok","alt"); form.reset(); fotos.length = 0; pintarMinis();
+    }
     modal.classList.add("abierto");
     document.body.classList.add("modal-abierto");
     document.body.style.overflow = "hidden";
@@ -1463,7 +1468,13 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
   /* ---------- Modal de reseña ---------- */
   var mR = document.getElementById("modalResena"), cajaR = mR.querySelector(".modal-caja");
   var formR = document.getElementById("formResena"), estrellasSel = 0, fotoR = null, abiertoR = 0;
-  function abrirResena(){ mR.classList.add("abierto"); document.body.classList.add("modal-abierto"); document.body.style.overflow="hidden"; abiertoR = Date.now(); }
+  function abrirResena(){
+    if(cajaR.classList.contains("ok") || cajaR.classList.contains("alt")){
+      cajaR.classList.remove("ok","alt"); formR.reset(); estrellasSel=0; fotoR=null; rMini.innerHTML=""; rZona.style.display="";
+      document.querySelectorAll("#estSel button").forEach(function(x){ x.classList.remove("on"); });
+    }
+    registrarClick("abrir_resena");
+    mR.classList.add("abierto"); document.body.classList.add("modal-abierto"); document.body.style.overflow="hidden"; abiertoR = Date.now(); }
   function cerrarResena(){ mR.classList.remove("abierto"); document.body.classList.remove("modal-abierto"); document.body.style.overflow=""; }
   document.querySelectorAll("[data-abrir-resena]").forEach(function(b){ b.addEventListener("click", abrirResena); });
   mR.addEventListener("click", function(e){ if(e.target===mR || e.target.closest("[data-cerrar-resena]")) cerrarResena(); });
