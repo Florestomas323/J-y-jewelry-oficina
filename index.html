@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <script src="config.js"></script>
+<script src="avisar.js" defer></script>
 <meta name="theme-color" content="#FBFAF7">
 <title>J &amp; Y Jewelry — Compra de oro y plata en Dallas | Tu oro al mejor precio en Texas</title>
 <meta name="description" content="Compramos oro y plata en Dallas y alrededores. Evaluación transparente en la comodidad de tu hogar o en un lugar acordado, con pago en efectivo o Zelle. Lunes a sábado por cita previa.">
@@ -420,6 +421,29 @@ header{
 .nosotros-caja p{font-size:1.05rem;color:#4A463B;margin-bottom:1.1rem}
 .firma-veta{width:150px;height:26px;margin:2rem auto 0}
 
+/* ---- Reseñas ---- */
+.resenas{display:none}
+.resenas.activa{display:block}
+.resenas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.4rem}
+@media(max-width:900px){.resenas-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.resenas-grid{grid-template-columns:1fr}}
+.resena{background:#FFFEFB;border:1px solid var(--linea);border-radius:var(--radio);padding:1.5rem 1.4rem;position:relative;display:flex;flex-direction:column;gap:.7rem}
+.resena .estrellas{color:var(--oro);letter-spacing:.1em;font-size:.95rem}
+.resena p{font-size:.95rem;color:#3F3B31;font-family:var(--serif);font-size:1.15rem;line-height:1.45;flex:1}
+.resena .quien{display:flex;align-items:center;gap:.7rem;font-size:.85rem}
+.resena .ini{width:38px;height:38px;border-radius:50%;background:var(--grad-oro);color:#241C08;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex:none;overflow:hidden}
+.resena .ini img{width:100%;height:100%;object-fit:cover}
+.resena .quien strong{display:block;color:var(--carbon)}
+.resena .quien span{color:var(--piedra);font-size:.78rem}
+.resena .foto-pieza{border-radius:10px;overflow:hidden;aspect-ratio:16/10;border:1px solid var(--linea)}
+.resena .foto-pieza img{width:100%;height:100%;object-fit:cover}
+.resena .ejemplo{position:absolute;top:.8rem;right:.8rem;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:#F7EED8;color:var(--oro-osc);padding:.25rem .55rem;border-radius:999px}
+.resenas-nota{font-size:.8rem;color:var(--piedra);text-align:center;margin-top:1.4rem}
+.resenas-cta{display:flex;justify-content:center;margin-top:1.4rem}
+.est-sel{display:flex;gap:.3rem}
+.est-sel button{background:none;border:none;font-size:1.7rem;color:#D8D2C2;padding:.1rem;line-height:1}
+.est-sel button.on{color:var(--oro)}
+
 /* ---- FAQ ---- */
 .faq-lista{max-width:780px;margin:2.4rem auto 0}
 .faq-item{border-bottom:1px solid var(--linea)}
@@ -614,6 +638,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
       <li><a href="#como-funciona">Cómo funciona</a></li>
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#faq">Preguntas frecuentes</a></li>
+      <li><a href="agendar.html">Agendar cita</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
     <button class="btn btn-oro" data-abrir-modal>Solicitar evaluación</button>
@@ -635,6 +660,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
       <a href="#como-funciona" data-cerrar-menu>Cómo funciona</a>
       <a href="#nosotros" data-cerrar-menu>Nosotros</a>
       <a href="#faq" data-cerrar-menu>Preguntas frecuentes</a>
+      <a href="agendar.html">Agendar cita</a>
       <a href="#contacto" data-cerrar-menu>Contacto</a>
     </nav>
     <button class="btn btn-oro" data-abrir-modal data-cerrar-menu>Solicitar evaluación</button>
@@ -744,6 +770,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
           <li>Aretes</li>
           <li>Joyería</li>
           <li>Monedas</li>
+          <li>Barras y lingotes</li>
           <li>Piezas de oro</li>
         </ul>
       </article>
@@ -755,6 +782,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
           <li>Anillos</li>
           <li>Pulseras</li>
           <li>Monedas</li>
+          <li>Barras y lingotes</li>
           <li>Piezas de plata</li>
         </ul>
       </article>
@@ -827,7 +855,8 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
         <p class="dato-linea"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Únicamente por cita previa</p>
       </div>
       <div class="hero-ctas reveal" style="margin-top:1.9rem">
-        <button class="btn btn-oro" data-abrir-modal>Coordinar una cita</button>
+        <a class="btn btn-oro" href="agendar.html">Agendar mi cita</a>
+        <button class="btn btn-linea" data-abrir-modal>Solicitar evaluación</button>
       </div>
     </div>
     <figure class="textura-panel reveal">
@@ -886,6 +915,17 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
   .grid-cards con las reseñas reales y quitar este comentario.
 -->
 
+<!-- ================= RESEÑAS ================= -->
+<section id="resenas" class="seccion seccion-clara resenas" aria-labelledby="t-resenas">
+  <div class="contenedor">
+    <p class="eyebrow reveal" style="justify-content:center">Clientes</p>
+    <h2 id="t-resenas" class="reveal" style="font-size:clamp(2rem,4.5vw,3rem);text-align:center">Lo que dicen quienes ya vendieron con nosotros.</h2>
+    <div class="resenas-grid" id="resenasGrid"></div>
+    <p class="resenas-nota reveal">Reseñas enviadas por clientes y revisadas antes de publicarse; solo se corrigen por claridad, sin cambiar la experiencia.</p>
+    <div class="resenas-cta reveal"><button class="btn btn-linea" data-abrir-resena>Deja tu reseña</button></div>
+  </div>
+</section>
+
 <!-- ================= FAQ ================= -->
 <section id="faq" class="seccion fondo-marfil" aria-labelledby="t-faq">
   <div class="contenedor">
@@ -928,10 +968,12 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     <p class="sub reveal">Conoce cuánto pueden valer tus piezas.</p>
     <div class="hero-ctas reveal">
       <button class="btn btn-oro" data-abrir-modal>Solicitar evaluación</button>
+      <a class="btn btn-linea" href="agendar.html">Agendar cita</a>
       <a class="btn btn-linea" href="tel:+12148935824">Llamar ahora</a>
       <a class="btn btn-linea" data-ws href="https://wa.me/12148935824?text=Hola%20J%20%26%20Y%20Jewelry%2C%20quiero%20cotizar%20mis%20piezas%20de%20oro%20o%20plata." target="_blank" rel="noopener">WhatsApp</a>
       <a class="btn btn-linea" href="mailto:cubaromero88@hotmail.com">Enviar email</a>
       <a class="btn btn-linea" id="btnGuardarContacto" href="#" download="J-y-Y-Jewelry.vcf">Guardar contacto</a>
+      <button class="btn btn-linea" data-abrir-resena>Deja tu reseña</button>
     </div>
     <div class="contacto-datos reveal">
       <span>Tel: <a href="tel:+12148935824" data-tel-bonito>(214) 893-5824</a></span>
@@ -961,6 +1003,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
         <li><a href="#como-funciona">Cómo funciona</a></li>
         <li><a href="#nosotros">Nosotros</a></li>
         <li><a href="#faq">Preguntas frecuentes</a></li>
+        <li><a href="agendar.html">Agendar cita</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
     </div>
@@ -978,6 +1021,45 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></span>
   </div>
 </footer>
+
+<!-- ================= MODAL DE RESEÑA ================= -->
+<div class="modal" id="modalResena" role="dialog" aria-modal="true" aria-labelledby="t-modal-resena">
+  <div class="modal-caja">
+    <button class="cerrar" aria-label="Cerrar" data-cerrar-resena>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <h3 id="t-modal-resena">Cuéntanos tu experiencia</h3>
+    <p class="modal-sub">Tu reseña se revisa antes de publicarse. Gracias por ayudar a otros a decidir con confianza.</p>
+    <form id="formResena" novalidate>
+      <div class="honeypot" aria-hidden="true"><label>No llenar<input type="text" name="sitio_web" tabindex="-1" autocomplete="off"></label></div>
+      <div class="campo" data-campo="rnombre"><label for="r-nombre">Nombre</label><input type="text" id="r-nombre" name="nombre" maxlength="60" autocomplete="name" placeholder="Ej. María G."><p class="error-msg">Escribe tu nombre.</p></div>
+      <div class="campo" data-campo="rciudad"><label for="r-ciudad">Ciudad <span class="opc">· opcional</span></label><input type="text" id="r-ciudad" name="ciudad" maxlength="60" autocomplete="address-level2"></div>
+      <div class="campo" data-campo="restrellas"><label>Calificación</label>
+        <div class="est-sel" id="estSel" role="radiogroup" aria-label="Calificación de 1 a 5 estrellas">
+          <button type="button" data-e="1" aria-label="1 estrella">★</button><button type="button" data-e="2" aria-label="2 estrellas">★</button><button type="button" data-e="3" aria-label="3 estrellas">★</button><button type="button" data-e="4" aria-label="4 estrellas">★</button><button type="button" data-e="5" aria-label="5 estrellas">★</button>
+        </div><p class="error-msg">Elige una calificación.</p></div>
+      <div class="campo" data-campo="rtexto"><label for="r-texto">Tu reseña</label><textarea id="r-texto" name="texto" maxlength="600" placeholder="¿Cómo fue la evaluación, la atención y el pago?"></textarea><p class="error-msg">Cuéntanos un poco más (mínimo 15 caracteres).</p></div>
+      <div class="campo"><label>Foto <span class="opc">· opcional (tuya o de la pieza)</span></label>
+        <div class="fotos-zona" id="rFotoZona" role="button" tabindex="0"><strong>Agregar una foto</strong></div>
+        <input type="file" id="r-foto" accept="image/*" hidden>
+        <div class="fotos-mini" id="rFotoMini"></div>
+      </div>
+      <button type="submit" class="btn btn-oro btn-enviar" id="btnEnviarResena">Enviar mi reseña</button>
+      <p class="privacidad-nota">Publicaremos tu nombre como lo escribas y tu ciudad si la incluyes. <a href="privacidad.html">Privacidad</a>.</p>
+    </form>
+    <div class="envio-ok" role="status">
+      <div class="sello-ok"><svg viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></svg></div>
+      <h3>¡Gracias!</h3>
+      <p>Recibimos tu reseña. La revisaremos y aparecerá en la página en cuanto se apruebe.</p>
+      <div class="hero-ctas" style="justify-content:center;margin-top:1.4rem"><button class="btn btn-linea" data-cerrar-resena>Cerrar</button></div>
+    </div>
+    <div class="envio-alt" role="status">
+      <h3 class="serif" style="font-size:1.6rem;margin-bottom:.6rem">No pudimos enviarla</h3>
+      <p>Inténtalo de nuevo en un momento, o escríbenos por WhatsApp y con gusto la publicamos.</p>
+      <div class="hero-ctas"><a class="btn btn-oro" data-ws href="https://wa.me/12148935824" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+  </div>
+</div>
 
 <!-- WhatsApp flotante -->
 <a class="btn-ws" id="btnWs" data-ws href="https://wa.me/12148935824?text=Hola%20J%20%26%20Y%20Jewelry%2C%20quiero%20cotizar%20mis%20piezas%20de%20oro%20o%20plata." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
@@ -1263,7 +1345,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
       var app = (fb.getApps && fb.getApps().length) ? fb.getApps()[0] : fb.initializeApp(N.firebase);
       var db = fs.getFirestore(app);
       var metal = form.querySelector('input[name="metal"]:checked');
-      await fs.addDoc(fs.collection(db, "leads"), {
+      var refLead = await fs.addDoc(fs.collection(db, "leads"), {
         nombre:   form.nombre.value.trim().slice(0,80),
         telefono: form.telefono.value.replace(/\D/g,"").slice(0,15),
         ciudad:   form.ciudad.value.trim().slice(0,60),
@@ -1275,6 +1357,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
         origen:   "web",
         fecha:    fs.serverTimestamp()
       });
+      if(window.avisar) window.avisar("leads", refLead.id);
       caja.classList.add("ok");
       registrarClick("lead_enviado");
     }catch(err){
@@ -1301,6 +1384,95 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     if(!ticking){ ticking = true; requestAnimationFrame(revisarBarra); }
   }, {passive:true});
   revisarBarra();
+
+  /* ---------- Reseñas: cargar publicadas ---------- */
+  var EJEMPLOS = [
+    {nombre:"María G.", ciudad:"Dallas", estrellas:5, texto:"Vinieron a mi casa, pesaron mis cadenas frente a mí y me explicaron cada paso. Me pagaron por Zelle en el momento.", ejemplo:true},
+    {nombre:"Luis R.", ciudad:"Dallas", estrellas:5, texto:"Tenía unos Centenarios de mi papá y no sabía cuánto valían. Muy honestos, sin presión y con una oferta clara.", ejemplo:true},
+    {nombre:"Ana P.", ciudad:"Dallas", estrellas:5, texto:"Rápido y discreto. Ni tuve que salir de mi casa y el pago fue inmediato.", ejemplo:true}
+  ];
+  function escHtml(t){ return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+  function iniciales(n){ return String(n||"").trim().split(/\s+/).slice(0,2).map(function(x){return x[0]||"";}).join("").toUpperCase(); }
+  function pintarResenas(lista){
+    var sec = document.getElementById("resenas"), grid = document.getElementById("resenasGrid");
+    if(!lista.length){ sec.classList.remove("activa"); return; }
+    grid.innerHTML = lista.map(function(r){
+      var est = "★★★★★".slice(0, Math.max(1,Math.min(5,+r.estrellas||5)));
+      return '<article class="resena reveal visto">'+
+        (r.ejemplo?'<span class="ejemplo">Ejemplo</span>':'')+
+        '<div class="estrellas" aria-label="'+est.length+' de 5 estrellas">'+est+'</div>'+
+        '<p>“'+escHtml(r.texto)+'”</p>'+
+        (r.fotoPieza?'<div class="foto-pieza"><img src="'+r.fotoPieza+'" alt="Pieza vendida por '+escHtml(r.nombre)+'" loading="lazy"></div>':'')+
+        '<div class="quien"><div class="ini">'+(r.foto?'<img src="'+r.foto+'" alt="">':escHtml(iniciales(r.nombre)))+'</div>'+
+        '<div><strong>'+escHtml(r.nombre)+'</strong><span>'+escHtml(r.ciudad||"")+'</span></div></div></article>';
+    }).join("");
+    sec.classList.add("activa");
+  }
+  (async function(){
+    if(/[?&]demo=resenas/.test(location.search)){ pintarResenas(EJEMPLOS); return; }
+    if(!N.firebaseListo) return;
+    try{
+      var fb = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+      var fs = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+      var app = (fb.getApps&&fb.getApps().length)?fb.getApps()[0]:fb.initializeApp(N.firebase);
+      var q = fs.query(fs.collection(fs.getFirestore(app),"testimonials"), fs.where("visible","==",true), fs.orderBy("fecha","desc"), fs.limit(9));
+      var snap = await fs.getDocs(q);
+      pintarResenas(snap.docs.map(function(d){ return d.data(); }));
+    }catch(e){}
+  })();
+
+  /* ---------- Modal de reseña ---------- */
+  var mR = document.getElementById("modalResena"), cajaR = mR.querySelector(".modal-caja");
+  var formR = document.getElementById("formResena"), estrellasSel = 0, fotoR = null, abiertoR = 0;
+  function abrirResena(){ mR.classList.add("abierto"); document.body.classList.add("modal-abierto"); document.body.style.overflow="hidden"; abiertoR = Date.now(); }
+  function cerrarResena(){ mR.classList.remove("abierto"); document.body.classList.remove("modal-abierto"); document.body.style.overflow=""; }
+  document.querySelectorAll("[data-abrir-resena]").forEach(function(b){ b.addEventListener("click", abrirResena); });
+  mR.addEventListener("click", function(e){ if(e.target===mR || e.target.closest("[data-cerrar-resena]")) cerrarResena(); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && mR.classList.contains("abierto")) cerrarResena(); });
+  document.getElementById("estSel").addEventListener("click", function(e){
+    var b = e.target.closest("[data-e]"); if(!b) return;
+    estrellasSel = +b.dataset.e;
+    document.querySelectorAll("#estSel button").forEach(function(x){ x.classList.toggle("on", +x.dataset.e <= estrellasSel); });
+    b.closest(".campo").classList.remove("con-error");
+  });
+  var rZona = document.getElementById("rFotoZona"), rInput = document.getElementById("r-foto"), rMini = document.getElementById("rFotoMini");
+  rZona.addEventListener("click", function(){ rInput.click(); });
+  rZona.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); rInput.click(); } });
+  rInput.addEventListener("change", function(){
+    var f = rInput.files && rInput.files[0]; rInput.value="";
+    if(!f) return;
+    comprimir(f, function(d){ if(!d) return; fotoR = d;
+      rMini.innerHTML = '<div class="mini"><img src="'+d+'" alt="Tu foto"><button type="button" aria-label="Quitar foto">✕</button></div>';
+      rMini.querySelector("button").addEventListener("click", function(){ fotoR=null; rMini.innerHTML=""; rZona.style.display=""; });
+      rZona.style.display="none"; });
+  });
+  formR.addEventListener("input", function(e){ var c=e.target.closest(".campo"); if(c) c.classList.remove("con-error"); });
+  var enviandoR = false;
+  formR.addEventListener("submit", async function(e){
+    e.preventDefault(); if(enviandoR) return;
+    function marcarR(n, mal){ var c=cajaR.querySelector('[data-campo="'+n+'"]'); if(c) c.classList.toggle("con-error", !!mal); return !mal; }
+    var ok = true;
+    ok = marcarR("rnombre", formR.nombre.value.trim().length<2) && ok;
+    ok = marcarR("restrellas", !estrellasSel) && ok;
+    ok = marcarR("rtexto", formR.texto.value.trim().length<15) && ok;
+    if(!ok) return;
+    if(formR.sitio_web.value || Date.now()-abiertoR < 4000){ cajaR.classList.add("ok"); return; }
+    if(!N.firebaseListo){ cajaR.classList.add("alt"); return; }
+    enviandoR = true; var b=document.getElementById("btnEnviarResena"); b.disabled=true; b.textContent="Enviando…";
+    try{
+      var fb = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+      var fs = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+      var app = (fb.getApps&&fb.getApps().length)?fb.getApps()[0]:fb.initializeApp(N.firebase);
+      var ref = await fs.addDoc(fs.collection(fs.getFirestore(app),"testimonials"), {
+        nombre: formR.nombre.value.trim().slice(0,60), ciudad: formR.ciudad.value.trim().slice(0,60),
+        estrellas: estrellasSel, texto: formR.texto.value.trim().slice(0,600),
+        foto: fotoR || "", fotoPieza: "", visible: false, estado: "pendiente", origen: "web", fecha: fs.serverTimestamp()
+      });
+      if(window.avisar) window.avisar("testimonials", ref.id);
+      cajaR.classList.add("ok"); registrarClick("resena_enviada");
+    }catch(err){ cajaR.classList.add("alt"); }
+    finally{ enviandoR=false; b.disabled=false; b.textContent="Enviar mi reseña"; }
+  });
 
   /* ---------- Guardar contacto (vCard) ---------- */
   (function(){

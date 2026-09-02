@@ -122,6 +122,45 @@ header{position:sticky;top:0;z-index:20;background:var(--carbon);color:#F2EDE1;b
 .barra-dato .relleno{height:100%;background:var(--grad-oro);border-radius:999px;transition:width .5s}
 .aviso{background:var(--marfil);border-radius:12px;padding:1rem 1.1rem;font-size:.86rem;color:#4A463B;margin-bottom:1.2rem}
 
+/* ---------- Reseñas y agenda ---------- */
+.subtabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 .4rem;border-radius:999px;background:var(--oro);color:#241C08;font-size:.68rem;font-weight:700;margin-left:.35rem}
+.estrellas{color:var(--oro);letter-spacing:.08em}
+.resena-txt{font-family:var(--serif);font-size:1.15rem;line-height:1.4;color:#3C382D;margin:.5rem 0 .7rem}
+.resena-txt textarea{width:100%;min-height:90px;border:1px solid var(--oro);border-radius:10px;padding:.7rem;font:inherit;font-family:var(--sans);font-size:.92rem}
+.fotos-r{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:.8rem}
+.foto-r{position:relative;width:96px}
+.foto-r img{width:96px;height:96px;object-fit:cover;border-radius:10px;border:1px solid var(--linea);cursor:zoom-in}
+.foto-r .et{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--piedra);margin-top:.25rem;text-align:center}
+.foto-r .q{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(23,21,15,.8);color:#fff;font-size:.7rem}
+.foto-add{width:96px;height:96px;border:1.5px dashed #D8CFB8;border-radius:10px;background:#FFFDF6;font-size:.68rem;font-weight:700;color:var(--oro-osc);display:flex;align-items:center;justify-content:center;text-align:center;padding:.4rem;cursor:pointer}
+.form-panel{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:1.1rem;margin-bottom:1rem}
+.form-panel h3{font-family:var(--serif);font-size:1.4rem;margin-bottom:.8rem}
+.campo{margin-bottom:.85rem}
+.campo label{display:block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A564A;margin-bottom:.3rem}
+.campo input,.campo textarea,.campo select{width:100%;padding:.7rem .9rem;border:1px solid var(--linea);border-radius:10px;background:#fff;font-size:.92rem}
+.campo input:focus,.campo textarea:focus,.campo select:focus{outline:none;border-color:var(--oro)}
+.fila2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+@media(max-width:520px){.fila2{grid-template-columns:1fr}}
+.est-sel button{background:none;border:none;font-size:1.6rem;color:#D8D2C2;line-height:1;padding:0 .1rem}
+.est-sel button.on{color:var(--oro)}
+.ejemplos{background:linear-gradient(150deg,#FFFDF7,#F7EED8);border:1px solid #E4D5AC;border-radius:14px;padding:1.1rem;margin-bottom:1rem;font-size:.88rem;color:#4A463B}
+.ejemplos h3{font-family:var(--serif);font-size:1.35rem;margin-bottom:.4rem}
+.ejemplos ul{margin:.6rem 0 .8rem 1.1rem}
+.ejemplos li{margin:.3rem 0}
+.cita-fecha{font-family:var(--serif);font-size:1.5rem;line-height:1.1}
+.cita-fecha small{display:block;font-family:var(--sans);font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--piedra);margin-top:.2rem}
+.e-pendiente{background:#F7EED8;color:var(--oro-osc)}
+.e-confirmada{background:#E9F2EA;color:var(--ok)}
+.e-cancelada{background:#FBEAE7;color:#7A2A1E}
+.bloqueo{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.bloqueo input{padding:.55rem .8rem;border:1px solid var(--linea);border-radius:999px;font-size:.88rem}
+.bloq-lista{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.bloq-lista span{background:var(--marfil);border-radius:999px;padding:.3rem .7rem;font-size:.8rem;font-weight:600;display:inline-flex;gap:.4rem;align-items:center}
+.bloq-lista button{background:none;border:none;color:var(--piedra);font-weight:700}
+.push-bar{background:var(--marfil);border-radius:12px;padding:.8rem 1rem;font-size:.85rem;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between}
+.push-bar .btn{padding:.5rem 1rem;font-size:.8rem;min-height:38px}
+
 /* ---------- Visor de foto ---------- */
 .visor{position:fixed;inset:0;z-index:60;background:rgba(23,21,15,.9);display:flex;align-items:center;justify-content:center;padding:1.2rem}
 .visor img{max-width:100%;max-height:88dvh;border-radius:10px}
@@ -170,8 +209,12 @@ header{position:sticky;top:0;z-index:20;background:var(--carbon);color:#F2EDE1;b
       <div class="metrica"><div class="n" id="mTotal">0</div><div class="t">Total</div></div>
     </div>
 
+    <div class="push-bar oculto" id="pushBar"><span id="pushTxt">Recibe un aviso en este dispositivo cuando entre una solicitud, cita o reseña.</span><button class="btn btn-oro" id="btnPush">Activar avisos</button></div>
+
     <div class="tabs">
-      <button class="activa" data-tab="leads">Solicitudes</button>
+      <button class="activa" data-tab="leads">Solicitudes<span class="badge oculto" id="bLeads"></span></button>
+      <button data-tab="agenda">Agenda<span class="badge oculto" id="bAgenda"></span></button>
+      <button data-tab="resenas">Reseñas<span class="badge oculto" id="bResenas"></span></button>
       <button data-tab="conversion">Conversión</button>
     </div>
 
@@ -189,6 +232,53 @@ header{position:sticky;top:0;z-index:20;background:var(--carbon);color:#F2EDE1;b
       <div style="text-align:center;margin-top:1.4rem">
         <button class="btn btn-linea" id="btnCsv">Descargar CSV</button>
       </div>
+    </section>
+
+    <!-- Agenda -->
+    <section id="tabAgenda" class="oculto">
+      <div class="form-panel">
+        <h3>Bloquear un día</h3>
+        <div class="bloqueo"><input type="date" id="bloqFecha"><button class="btn btn-linea" id="btnBloquear">Bloquear</button><span style="font-size:.8rem;color:var(--piedra)">Ese día no se podrá agendar desde la web.</span></div>
+        <div class="bloq-lista" id="bloqLista"></div>
+      </div>
+      <div class="subtabs">
+        <button class="chip activo" data-ag="proximas">Próximas</button>
+        <button class="chip" data-ag="pendiente">Pendientes</button>
+        <button class="chip" data-ag="confirmada">Confirmadas</button>
+        <button class="chip" data-ag="pasadas">Pasadas</button>
+      </div>
+      <div id="listaCitas"></div>
+    </section>
+
+    <!-- Reseñas -->
+    <section id="tabResenas" class="oculto">
+      <div id="ejemplosResenas" class="ejemplos oculto">
+        <h3>Todavía no hay reseñas</h3>
+        <p>Así se verán cuando lleguen. Estas tres son solo un <strong>ejemplo de diseño</strong> y no se publican en la página:</p>
+        <ul id="ejemplosLista"></ul>
+        <p><a href="index.html?demo=resenas" target="_blank" rel="noopener">Ver cómo se vería la sección en la página →</a></p>
+        <p style="margin-top:.6rem">La forma más rápida de conseguir las primeras: manda este mensaje a tus últimos clientes por WhatsApp: <em>“Hola, gracias por confiar en J &amp; Y Jewelry. ¿Nos regalas una reseña de 1 minuto? Es aquí: [tu dominio]/#contacto → Deja tu reseña”</em>.</p>
+      </div>
+      <details class="form-panel">
+        <summary style="cursor:pointer;font-weight:700;font-size:.92rem">＋ Agregar una reseña manualmente (de WhatsApp, TikTok, en persona)</summary>
+        <div style="margin-top:1rem">
+          <div class="fila2">
+            <div class="campo"><label for="rNombre">Nombre del cliente</label><input id="rNombre" maxlength="60" placeholder="Ej. María G."></div>
+            <div class="campo"><label for="rCiudad">Ciudad</label><input id="rCiudad" maxlength="60"></div>
+          </div>
+          <div class="campo"><label>Calificación</label><div class="est-sel" id="rEst"><button type="button" data-e="1">★</button><button type="button" data-e="2">★</button><button type="button" data-e="3">★</button><button type="button" data-e="4">★</button><button type="button" data-e="5">★</button></div></div>
+          <div class="campo"><label for="rTexto">Reseña (palabras del cliente)</label><textarea id="rTexto" maxlength="600" rows="3"></textarea></div>
+          <div class="campo"><label for="rFuente">De dónde viene</label><select id="rFuente"><option>WhatsApp</option><option>TikTok</option><option>En persona</option><option>Llamada</option><option>Otro</option></select></div>
+          <div class="fotos-r" id="rFotosNueva"></div>
+          <button class="btn btn-oro" id="btnAgregarResena">Publicar reseña</button>
+        </div>
+      </details>
+      <div class="subtabs">
+        <button class="chip activo" data-rs="pendiente">Por revisar</button>
+        <button class="chip" data-rs="publicada">Publicadas</button>
+        <button class="chip" data-rs="todas">Todas</button>
+      </div>
+      <div id="listaResenas"></div>
     </section>
 
     <!-- Conversión -->
@@ -209,8 +299,8 @@ header{position:sticky;top:0;z-index:20;background:var(--carbon);color:#F2EDE1;b
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
          setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, doc, updateDoc, deleteDoc, onSnapshot,
-         query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, doc, updateDoc, deleteDoc, onSnapshot, addDoc, setDoc, getDoc,
+         query, orderBy, limit, serverTimestamp, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const N = window.NEGOCIO || {};
 const $ = id => document.getElementById(id);
@@ -290,6 +380,10 @@ onAuthStateChanged(auth, usuario => {
   vista("cargando");
   escucharLeads();
   escucharClicks();
+  escucharCitas();
+  escucharResenas();
+  cargarAgendaCfg();
+  prepararPush();
 });
 
 /* ---------- leads en tiempo real ---------- */
@@ -316,7 +410,9 @@ function metricas(){
     const f = l.fecha && l.fecha.toDate ? l.fecha.toDate().getTime() : 0;
     return f > hace7;
   }).length;
-  $("mNuevos").textContent = LEADS.filter(l => (l.estado||"nuevo")==="nuevo").length;
+  const nuevos = LEADS.filter(l => (l.estado||"nuevo")==="nuevo").length;
+  $("mNuevos").textContent = nuevos;
+  $("bLeads").textContent = nuevos; $("bLeads").classList.toggle("oculto", !nuevos);
   $("mSemana").textContent = enSemana;
   $("mCitas").textContent  = LEADS.filter(l => l.estado==="cita").length;
   $("mTotal").textContent  = LEADS.length;
@@ -421,8 +517,9 @@ document.querySelectorAll("[data-tab]").forEach(b => {
   b.addEventListener("click", () => {
     document.querySelectorAll("[data-tab]").forEach(x => x.classList.remove("activa"));
     b.classList.add("activa");
-    $("tabLeads").classList.toggle("oculto", b.dataset.tab !== "leads");
-    $("tabConversion").classList.toggle("oculto", b.dataset.tab !== "conversion");
+    ["leads","agenda","resenas","conversion"].forEach(t=>{
+      const el = $("tab"+t.charAt(0).toUpperCase()+t.slice(1)); if(el) el.classList.toggle("oculto", b.dataset.tab !== t);
+    });
   });
 });
 
@@ -450,6 +547,207 @@ function escucharClicks(){
       : `<div class="vacio"><div class="icono">◇</div><p>Todavía no hay datos. Se irán registrando conforme la gente use la página.</p></div>`;
   }, ()=>{ /* silencioso: la sección simplemente queda vacía */ });
 }
+
+/* ================= AGENDA ================= */
+let CITAS = [], filtroAg = "proximas", AGCFG = { bloqueados:[] };
+const DL = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"], MN=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+const ESTC = { pendiente:{txt:"Pendiente",clase:"e-pendiente"}, confirmada:{txt:"Confirmada",clase:"e-confirmada"}, completado:{txt:"Completada",clase:"e-completado"}, cancelada:{txt:"Cancelada",clase:"e-cancelada"} };
+function hora12(h){ const [H,M]=h.split(":").map(Number); const ap=H>=12?"pm":"am"; return (H%12||12)+(M?":"+String(M).padStart(2,"0"):"")+" "+ap; }
+function hoyIso(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+
+function escucharCitas(){
+  onSnapshot(query(collection(db,"appointments"), orderBy("fecha","asc"), limit(500)), snap => {
+    CITAS = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=> (a.fecha+a.hora).localeCompare(b.fecha+b.hora));
+    const pend = CITAS.filter(c=>c.estado==="pendiente" && c.fecha>=hoyIso()).length;
+    $("bAgenda").textContent = pend; $("bAgenda").classList.toggle("oculto", !pend);
+    pintarCitas();
+  }, ()=>{});
+}
+async function cargarAgendaCfg(){
+  try{ const d = await getDoc(doc(db,"settings","agenda")); if(d.exists()) AGCFG = Object.assign({bloqueados:[]}, d.data()); }catch(e){}
+  pintarBloqueos();
+}
+function pintarBloqueos(){
+  const l = (AGCFG.bloqueados||[]).slice().sort();
+  $("bloqLista").innerHTML = l.length ? l.map(f=>`<span>${f}<button data-desbloq="${f}" aria-label="Quitar bloqueo">✕</button></span>`).join("") : `<span style="background:none;color:var(--piedra);font-weight:500">Sin días bloqueados.</span>`;
+}
+$("btnBloquear").addEventListener("click", async ()=>{
+  const f = $("bloqFecha").value; if(!f){ toast("Elige una fecha"); return; }
+  try{ await setDoc(doc(db,"settings","agenda"), { bloqueados: arrayUnion(f) }, { merge:true }); AGCFG.bloqueados = [...new Set([...(AGCFG.bloqueados||[]), f])]; pintarBloqueos(); toast("Día bloqueado"); }
+  catch(e){ toast("No se pudo bloquear"); }
+});
+$("bloqLista").addEventListener("click", async e=>{
+  const b = e.target.closest("[data-desbloq]"); if(!b) return;
+  try{ await updateDoc(doc(db,"settings","agenda"), { bloqueados: arrayRemove(b.dataset.desbloq) }); AGCFG.bloqueados = (AGCFG.bloqueados||[]).filter(x=>x!==b.dataset.desbloq); pintarBloqueos(); toast("Bloqueo quitado"); }
+  catch(e){ toast("No se pudo quitar"); }
+});
+function pintarCitas(){
+  const hoy = hoyIso();
+  let arr = CITAS.filter(c => {
+    if(filtroAg==="proximas")   return c.fecha>=hoy && c.estado!=="cancelada";
+    if(filtroAg==="pasadas")    return c.fecha<hoy;
+    return c.estado===filtroAg && c.fecha>=hoy;
+  });
+  if(filtroAg==="pasadas") arr = arr.slice().reverse();
+  const cont = $("listaCitas");
+  if(!arr.length){ cont.innerHTML = `<div class="vacio"><div class="icono">◇</div><p>${CITAS.length?"Nada en este filtro.":"Todavía no hay citas. Aparecerán aquí cuando alguien agende desde la web."}</p></div>`; return; }
+  cont.innerHTML = arr.map(c => {
+    const E = ESTC[c.estado] || ESTC.pendiente;
+    const d = new Date(c.fecha+"T12:00:00");
+    const tel = String(c.telefono||"").replace(/\D/g,""); const telI = tel.length===10 ? "1"+tel : tel;
+    const dir = [c.direccion, c.ciudad, c.zip].filter(Boolean).join(", ");
+    const wa = "https://wa.me/"+telI+"?text="+encodeURIComponent(`Hola ${c.nombre||""}, le escribimos de J & Y Jewelry para confirmar su cita del ${DL[d.getDay()]} ${d.getDate()} de ${MN[d.getMonth()]} a las ${hora12(c.hora)} en ${dir}. ¿Le queda bien?`);
+    return `<article class="lead ${c.estado==="pendiente"?"nuevo":""}">
+      <div class="lead-top">
+        <div class="cita-fecha">${DL[d.getDay()]} ${d.getDate()} ${MN[d.getMonth()]} · ${hora12(c.hora)}<small>${esc(c.nombre)}</small><span class="etiqueta ${E.clase}">${E.txt}</span></div>
+        <span class="fecha">${fechaTexto(c.creada)}</span>
+      </div>
+      <div class="datos">
+        <div class="dato"><div class="k">Teléfono</div><div class="v">${telBonito(c.telefono)}</div></div>
+        <div class="dato"><div class="k">Dirección</div><div class="v"><a href="https://maps.google.com/?q=${encodeURIComponent(dir)}" target="_blank" rel="noopener">${esc(dir)||"—"}</a></div></div>
+        <div class="dato"><div class="k">Qué vende</div><div class="v">${esc(c.metal)||"—"}</div></div>
+      </div>
+      ${c.notas?`<div class="mensaje">${esc(c.notas)}</div>`:""}
+      <div class="acciones">
+        <a class="btn btn-oro" href="${wa}" target="_blank" rel="noopener">Confirmar por WhatsApp</a>
+        <a class="btn btn-linea" href="tel:+${telI}">Llamar</a>
+        <select data-cita="${c.id}" aria-label="Estado de la cita">${Object.entries(ESTC).map(([k,v])=>`<option value="${k}"${k===(c.estado||"pendiente")?" selected":""}>${v.txt}</option>`).join("")}</select>
+        <button class="borrar" data-borrar-cita="${c.id}">Eliminar</button>
+      </div>
+    </article>`;
+  }).join("");
+}
+document.querySelectorAll("[data-ag]").forEach(c=>c.addEventListener("click",()=>{ document.querySelectorAll("[data-ag]").forEach(x=>x.classList.remove("activo")); c.classList.add("activo"); filtroAg=c.dataset.ag; pintarCitas(); }));
+$("listaCitas").addEventListener("change", async e=>{
+  const sel = e.target.closest("[data-cita]"); if(!sel) return;
+  const c = CITAS.find(x=>x.id===sel.dataset.cita);
+  try{
+    await updateDoc(doc(db,"appointments",sel.dataset.cita), { estado: sel.value });
+    if(sel.value==="cancelada" && c && c.slotId){ await deleteDoc(doc(db,"busySlots",c.slotId)).catch(()=>{}); }
+    toast(sel.value==="cancelada" ? "Cita cancelada · horario liberado" : "Estado actualizado");
+  }catch(err){ toast("No se pudo actualizar"); }
+});
+$("listaCitas").addEventListener("click", async e=>{
+  const b = e.target.closest("[data-borrar-cita]"); if(!b) return;
+  const c = CITAS.find(x=>x.id===b.dataset.borrarCita);
+  if(!confirm(`¿Eliminar la cita de ${c&&c.nombre?c.nombre:"este cliente"}? Se libera el horario.`)) return;
+  try{ await deleteDoc(doc(db,"appointments",b.dataset.borrarCita)); if(c&&c.slotId) await deleteDoc(doc(db,"busySlots",c.slotId)).catch(()=>{}); toast("Cita eliminada"); }
+  catch(err){ toast("No se pudo eliminar"); }
+});
+
+/* ================= RESEÑAS ================= */
+let RESENAS = [], filtroRs = "pendiente";
+const EJEMPLOS = [
+  ["María G.", "Vinieron a mi casa, pesaron mis cadenas frente a mí y me explicaron cada paso. Me pagaron por Zelle en el momento."],
+  ["Luis R.", "Tenía unos Centenarios de mi papá y no sabía cuánto valían. Muy honestos, sin presión y con una oferta clara."],
+  ["Ana P.", "Rápido y discreto. Ni tuve que salir de mi casa y el pago fue inmediato."]
+];
+$("ejemplosLista").innerHTML = EJEMPLOS.map(([n,t])=>`<li><span class="estrellas">★★★★★</span> “${t}” — <strong>${n}</strong></li>`).join("");
+function comprimir(archivo){
+  return new Promise(res=>{
+    if(!archivo || archivo.type.indexOf("image/")!==0) return res(null);
+    const r = new FileReader();
+    r.onload = ()=>{ const im = new Image(); im.onload = ()=>{ const MAX=900, s=Math.min(1,MAX/Math.max(im.width,im.height)); const c=document.createElement("canvas"); c.width=Math.round(im.width*s); c.height=Math.round(im.height*s); c.getContext("2d").drawImage(im,0,0,c.width,c.height); let out=c.toDataURL("image/jpeg",.72); if(out.length>650000) out=c.toDataURL("image/jpeg",.5); res(out); }; im.onerror=()=>res(null); im.src=r.result; };
+    r.onerror=()=>res(null); r.readAsDataURL(archivo);
+  });
+}
+function elegirFoto(){ return new Promise(res=>{ const i=document.createElement("input"); i.type="file"; i.accept="image/*"; i.onchange=async()=>res(await comprimir(i.files&&i.files[0])); i.click(); }); }
+function escucharResenas(){
+  onSnapshot(query(collection(db,"testimonials"), orderBy("fecha","desc"), limit(300)), snap=>{
+    RESENAS = snap.docs.map(d=>({id:d.id,...d.data()}));
+    const pend = RESENAS.filter(r=>!r.visible).length;
+    $("bResenas").textContent = pend; $("bResenas").classList.toggle("oculto", !pend);
+    $("ejemplosResenas").classList.toggle("oculto", RESENAS.length>0);
+    pintarResenas();
+  }, ()=>{});
+}
+function pintarResenas(){
+  const arr = RESENAS.filter(r => filtroRs==="todas" ? true : (filtroRs==="publicada" ? r.visible : !r.visible));
+  const cont = $("listaResenas");
+  if(!arr.length){ cont.innerHTML = `<div class="vacio"><div class="icono">◇</div><p>${RESENAS.length?"Nada en este filtro.":"Aún no llegan reseñas."}</p></div>`; return; }
+  cont.innerHTML = arr.map(r => `<article class="lead ${r.visible?"":"nuevo"}" data-id="${r.id}">
+    <div class="lead-top"><div><h3>${esc(r.nombre)}</h3><span class="etiqueta ${r.visible?"e-cita":"e-nuevo"}">${r.visible?"Publicada":"Por revisar"}</span> <span style="font-size:.78rem;color:var(--piedra)">${esc(r.ciudad||"")}${r.fuente?" · "+esc(r.fuente):""}</span></div><span class="fecha">${fechaTexto(r.fecha)}</span></div>
+    <div class="estrellas">${"★★★★★".slice(0,Math.max(1,Math.min(5,+r.estrellas||5)))}</div>
+    <div class="resena-txt" data-txt>“${esc(r.texto)}”</div>
+    <div class="fotos-r">
+      ${r.foto?`<div class="foto-r"><img src="${r.foto}" data-zoom alt="Foto del cliente"><button class="q" data-quitar="foto" aria-label="Quitar foto del cliente">✕</button><div class="et">Cliente</div></div>`:`<button class="foto-add" data-poner="foto">＋ Foto del cliente</button>`}
+      ${r.fotoPieza?`<div class="foto-r"><img src="${r.fotoPieza}" data-zoom alt="Foto de la pieza"><button class="q" data-quitar="fotoPieza" aria-label="Quitar foto de la pieza">✕</button><div class="et">Pieza</div></div>`:`<button class="foto-add" data-poner="fotoPieza">＋ Foto de la pieza</button>`}
+    </div>
+    <div class="acciones">
+      <button class="btn ${r.visible?"btn-linea":"btn-oro"}" data-visible="${r.visible?"0":"1"}">${r.visible?"Ocultar":"Publicar"}</button>
+      <button class="btn btn-linea" data-editar>Editar texto</button>
+      <button class="borrar" data-borrar-r>Eliminar</button>
+    </div>
+  </article>`).join("");
+}
+document.querySelectorAll("[data-rs]").forEach(c=>c.addEventListener("click",()=>{ document.querySelectorAll("[data-rs]").forEach(x=>x.classList.remove("activo")); c.classList.add("activo"); filtroRs=c.dataset.rs; pintarResenas(); }));
+$("listaResenas").addEventListener("click", async e=>{
+  const art = e.target.closest("[data-id]"); if(!art) return; const id = art.dataset.id; const r = RESENAS.find(x=>x.id===id);
+  const ref = doc(db,"testimonials",id);
+  try{
+    if(e.target.closest("[data-zoom]")){ $("visorImg").src = e.target.closest("[data-zoom]").src; $("visor").classList.remove("oculto"); return; }
+    if(e.target.closest("[data-visible]")){ const v = e.target.closest("[data-visible]").dataset.visible==="1"; await updateDoc(ref,{ visible:v, estado:v?"publicada":"oculta" }); toast(v?"Reseña publicada":"Reseña oculta"); return; }
+    if(e.target.closest("[data-quitar]")){ const campo=e.target.closest("[data-quitar]").dataset.quitar; if(!confirm("¿Quitar esta foto?")) return; await updateDoc(ref,{[campo]:""}); toast("Foto quitada"); return; }
+    if(e.target.closest("[data-poner]")){ const campo=e.target.closest("[data-poner]").dataset.poner; const f = await elegirFoto(); if(!f) return; await updateDoc(ref,{[campo]:f}); toast("Foto agregada"); return; }
+    if(e.target.closest("[data-borrar-r]")){ if(!confirm(`¿Eliminar la reseña de ${r?r.nombre:"este cliente"}?`)) return; await deleteDoc(ref); toast("Reseña eliminada"); return; }
+    if(e.target.closest("[data-editar]")){
+      const caja = art.querySelector("[data-txt]"); if(caja.querySelector("textarea")) return;
+      caja.innerHTML = `<textarea maxlength="600">${esc(r.texto)}</textarea><div style="display:flex;gap:.5rem;margin-top:.5rem"><button class="btn btn-oro" data-guardar style="padding:.5rem 1rem;font-size:.8rem;min-height:38px">Guardar</button><button class="btn btn-linea" data-cancelar style="padding:.5rem 1rem;font-size:.8rem;min-height:38px">Cancelar</button></div><p style="font-size:.74rem;color:var(--piedra);margin-top:.4rem">Solo ortografía y claridad; no cambies la experiencia del cliente.</p>`;
+      return;
+    }
+    if(e.target.closest("[data-guardar]")){ const t = art.querySelector("textarea").value.trim(); if(t.length<15){ toast("Texto muy corto"); return; } await updateDoc(ref,{ texto:t.slice(0,600) }); toast("Texto guardado"); return; }
+    if(e.target.closest("[data-cancelar]")){ pintarResenas(); return; }
+  }catch(err){ toast("No se pudo guardar"); }
+});
+/* Agregar reseña manual */
+let rEstSel = 0, rFotosNueva = { foto:"", fotoPieza:"" };
+$("rEst").addEventListener("click", e=>{ const b=e.target.closest("[data-e]"); if(!b) return; rEstSel=+b.dataset.e; document.querySelectorAll("#rEst button").forEach(x=>x.classList.toggle("on",+x.dataset.e<=rEstSel)); });
+function pintarFotosNueva(){
+  $("rFotosNueva").innerHTML = ["foto","fotoPieza"].map(k => rFotosNueva[k]
+    ? `<div class="foto-r"><img src="${rFotosNueva[k]}" alt=""><button class="q" data-nq="${k}">✕</button><div class="et">${k==="foto"?"Cliente":"Pieza"}</div></div>`
+    : `<button class="foto-add" data-np="${k}">＋ ${k==="foto"?"Foto del cliente":"Foto de la pieza"}</button>`).join("");
+}
+pintarFotosNueva();
+$("rFotosNueva").addEventListener("click", async e=>{
+  const p=e.target.closest("[data-np]"), q=e.target.closest("[data-nq]");
+  if(p){ const f=await elegirFoto(); if(f){ rFotosNueva[p.dataset.np]=f; pintarFotosNueva(); } }
+  if(q){ rFotosNueva[q.dataset.nq]=""; pintarFotosNueva(); }
+});
+$("btnAgregarResena").addEventListener("click", async ()=>{
+  const nombre=$("rNombre").value.trim(), texto=$("rTexto").value.trim();
+  if(nombre.length<2){ toast("Escribe el nombre"); return; } if(!rEstSel){ toast("Elige las estrellas"); return; } if(texto.length<15){ toast("La reseña es muy corta"); return; }
+  const b=$("btnAgregarResena"); b.disabled=true;
+  try{
+    await addDoc(collection(db,"testimonials"), { nombre:nombre.slice(0,60), ciudad:$("rCiudad").value.trim().slice(0,60), estrellas:rEstSel, texto:texto.slice(0,600),
+      foto:rFotosNueva.foto, fotoPieza:rFotosNueva.fotoPieza, fuente:$("rFuente").value, visible:true, estado:"publicada", origen:"panel", fecha:serverTimestamp() });
+    $("rNombre").value=""; $("rCiudad").value=""; $("rTexto").value=""; rEstSel=0; document.querySelectorAll("#rEst button").forEach(x=>x.classList.remove("on")); rFotosNueva={foto:"",fotoPieza:""}; pintarFotosNueva();
+    toast("Reseña publicada");
+  }catch(err){ toast("No se pudo publicar"); } finally{ b.disabled=false; }
+});
+
+/* ================= PUSH ================= */
+async function prepararPush(){
+  const pub = (N.vapidPublica||"").trim();
+  if(!pub || !("serviceWorker" in navigator) || !("PushManager" in window)) return;
+  try{
+    const reg = await navigator.serviceWorker.register("sw-panel.js");
+    const sub = await reg.pushManager.getSubscription();
+    $("pushBar").classList.remove("oculto");
+    if(sub){ $("pushTxt").textContent = "Avisos activados en este dispositivo."; $("btnPush").textContent = "Desactivar"; }
+    $("btnPush").onclick = async ()=>{
+      try{
+        const actual = await reg.pushManager.getSubscription();
+        if(actual){ await deleteDoc(doc(db,"pushSubs", btoa(actual.endpoint).replace(/[^a-zA-Z0-9]/g,"").slice(0,120))).catch(()=>{}); await actual.unsubscribe(); $("pushTxt").textContent="Avisos desactivados."; $("btnPush").textContent="Activar avisos"; return; }
+        const perm = await Notification.requestPermission(); if(perm!=="granted"){ toast("Permiso denegado"); return; }
+        const s = await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey: b64aU8(pub) });
+        const j = s.toJSON();
+        await setDoc(doc(db,"pushSubs", btoa(s.endpoint).replace(/[^a-zA-Z0-9]/g,"").slice(0,120)), { endpoint:s.endpoint, p256dh:j.keys.p256dh, auth:j.keys.auth, creado:serverTimestamp(), ua:navigator.userAgent.slice(0,120) });
+        $("pushTxt").textContent="Avisos activados en este dispositivo."; $("btnPush").textContent="Desactivar"; toast("Avisos activados");
+      }catch(e){ toast("No se pudieron activar los avisos"); }
+    };
+  }catch(e){}
+}
+function b64aU8(b){ const p="=".repeat((4-b.length%4)%4); const s=(b+p).replace(/-/g,"+").replace(/_/g,"/"); const r=atob(s); return Uint8Array.from([...r].map(c=>c.charCodeAt(0))); }
 
 /* ---------- CSV ---------- */
 $("btnCsv").addEventListener("click", () => {

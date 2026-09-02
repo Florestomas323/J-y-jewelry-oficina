@@ -27,6 +27,11 @@ window.NEGOCIO = {
 
   email:   "cubaromero88@hotmail.com",
 
+  /* Clave PÚBLICA VAPID para notificaciones push del panel.
+     Se genera con: npx web-push generate-vapid-keys
+     La privada va SOLO en Vercel (VAPID_PRIVADA), nunca aquí. */
+  vapidPublica: "",
+
   /* Dominio propio, sin barra final. Cambiar al publicar. */
   dominio: "https://SUDOMINIO.com",
 
