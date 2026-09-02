@@ -429,7 +429,7 @@ document.querySelectorAll("[data-tab]").forEach(b => {
 /* ---------- conversión ---------- */
 const NOMBRES_CLICK = {
   abrir_modal:"Abrió el formulario", lead_enviado:"Envió la solicitud",
-  llamar:"Tocó llamar", whatsapp:"Tocó WhatsApp", email:"Tocó email", tiktok:"Fue al TikTok"
+  llamar:"Tocó llamar", whatsapp:"Tocó WhatsApp", email:"Tocó email", tiktok:"Fue al TikTok", guardar_contacto:"Guardó el contacto"
 };
 function escucharClicks(){
   const q = query(collection(db,"clicks"), orderBy("fecha","desc"), limit(1000));
