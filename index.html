@@ -211,7 +211,7 @@ header{
 /* ---- Hero: fotografía a sangre completa, texto sobre el mármol ---- */
 .hero{
   position:relative;overflow:hidden;
-  min-height:calc((100svh - var(--h-header)) * .8);
+  min-height:min(calc(100svh - var(--h-header) - 44px), 960px);
   display:flex;align-items:center;
   background:var(--marmol);
 }
@@ -255,7 +255,7 @@ header{
   /* Móvil: el hero ocupa la primera pantalla (menos el header y un asomo
      de la franja oscura). El bloque va centrado con ligero sesgo hacia
      arriba; la joyería queda arriba a la derecha, el titular sobre mármol. */
-  .hero{min-height:calc(100svh - var(--h-header) - 44px);align-items:center}
+  .hero{min-height:calc(100svh - var(--h-header) - 150px);align-items:flex-end}
   .hero-bg img{position:absolute;left:0;bottom:0;width:100%;height:118%;object-position:70% center}
   .hero-velo{
     background:linear-gradient(0deg,
@@ -266,7 +266,7 @@ header{
       rgba(251,250,247,.12) 86%,
       rgba(251,250,247,0) 100%);
   }
-  .hero-contenido{padding:2svh clamp(1.15rem,4vw,2.5rem) 11svh}
+  .hero-contenido{padding:2svh clamp(1.15rem,4vw,2.5rem) 1.9rem}
   .hero .marca{font-size:.7rem;letter-spacing:.28em}
   /* El arte del título trae aire a la izquierda (la línea decorativa);
      el margen negativo alinea "TU ORO" con el borde del texto. */
