@@ -33,7 +33,7 @@ window.NEGOCIO = {
   vapidPublica: "",
 
   /* Dominio propio, sin barra final. Cambiar al publicar. */
-  dominio: "https://SUDOMINIO.com",
+  dominio: "https://j-y-jewelry-oficina.vercel.app",
 
   /* ---------- Proyecto de Firebase propio ----------
      Proyecto NUEVO e independiente, exclusivo de J & Y.

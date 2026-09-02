@@ -21,10 +21,24 @@ plantilla Oficina Digital, con identidad completamente nueva.
 
 ## Antes de publicar — checklist
 
-1. **Dominio**: reemplazar `SUDOMINIO.com` en `config.js`, `index.html`
-   (canonical, OG, JSON-LD), `robots.txt`, `sitemap.xml`, `privacidad.html`
-   y `terminos.html` con el dominio real.
-   `grep -rn "SUDOMINIO" .` debe quedar en cero.
+1. **Dominio**: hoy todo apunta a `j-y-jewelry-oficina.vercel.app`
+   (el sitio en vivo), para que la vista previa al compartir el enlace
+   funcione desde ya. Cuando exista el dominio propio, reemplazarlo en
+   todos los archivos de una sola pasada:
+   
+   ```
+   grep -rl "j-y-jewelry-oficina.vercel.app" . \
+     | xargs sed -i 's/j-y-jewelry-oficina.vercel.app/TUDOMINIO.com/g'
+   ```
+   
+   Afecta a: `index.html`, `agendar.html`, `privacidad.html`,
+   `terminos.html`, `panel.html`, `config.js`, `robots.txt`,
+   `sitemap.xml` y `api/notify.js` (canonical, Open Graph, JSON-LD,
+   sitemap y enlace del correo de avisos).
+   
+   **Después de cambiar el dominio o la imagen**, refrescar la caché de
+   las redes en <https://developers.facebook.com/tools/debug/> (pegar la
+   URL y pulsar “Scrape Again”). WhatsApp usa esa misma caché.
 1. **Firebase**: proyecto `oro-jesus-romero` ya conectado en `config.js`.
    Publicar `firestore-rules.txt` (ya trae los dos correos con acceso).
    Mientras Firebase no responda, el formulario ofrece llamada/email

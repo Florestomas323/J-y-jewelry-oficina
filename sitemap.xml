@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://SUDOMINIO.com/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://SUDOMINIO.com/agendar</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://SUDOMINIO.com/privacidad</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
-  <url><loc>https://SUDOMINIO.com/terminos</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://j-y-jewelry-oficina.vercel.app/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://j-y-jewelry-oficina.vercel.app/agendar</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://j-y-jewelry-oficina.vercel.app/privacidad</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://j-y-jewelry-oficina.vercel.app/terminos</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
 </urlset>

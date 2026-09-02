@@ -3,4 +3,4 @@ Allow: /
 Disallow: /panel
 Disallow: /panel.html
 
-Sitemap: https://SUDOMINIO.com/sitemap.xml
+Sitemap: https://j-y-jewelry-oficina.vercel.app/sitemap.xml
