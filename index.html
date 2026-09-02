@@ -252,21 +252,21 @@ header{
   background:linear-gradient(90deg,rgba(176,138,51,0),rgba(201,162,75,.9) 40%,rgba(201,162,75,.9) 60%,rgba(176,138,51,0));
 }
 @media(max-width:860px){
-  /* Móvil: la joyería arriba, el titular emerge del mármol abajo */
-  .hero{min-height:calc((100svh - var(--h-header)) * .72);align-items:flex-end}
-  /* Reencuadre del fondo: la imagen se ancla abajo y sobresale un 18%
-     por arriba, de modo que las joyas suben hacia la esquina superior
-     derecha y el lado izquierdo queda en mármol limpio para el texto. */
+  /* Móvil: el hero ocupa la primera pantalla (menos el header y un asomo
+     de la franja oscura). El bloque va centrado con ligero sesgo hacia
+     arriba; la joyería queda arriba a la derecha, el titular sobre mármol. */
+  .hero{min-height:calc(100svh - var(--h-header) - 44px);align-items:center}
   .hero-bg img{position:absolute;left:0;bottom:0;width:100%;height:118%;object-position:70% center}
   .hero-velo{
     background:linear-gradient(0deg,
       rgba(251,250,247,.98) 0%,
-      rgba(251,250,247,.94) 38%,
-      rgba(251,250,247,.55) 58%,
-      rgba(251,250,247,.10) 74%,
+      rgba(251,250,247,.96) 50%,
+      rgba(251,250,247,.85) 66%,
+      rgba(251,250,247,.45) 76%,
+      rgba(251,250,247,.12) 86%,
       rgba(251,250,247,0) 100%);
   }
-  .hero-contenido{padding:12svh clamp(1.15rem,4vw,2.5rem) 1.6rem}
+  .hero-contenido{padding:4svh clamp(1.15rem,4vw,2.5rem) 9svh}
   .hero .marca{font-size:.7rem;letter-spacing:.28em}
   .hero-titulo{margin:.5rem 0 .85rem}
   .hero-titulo img{max-width:79%}
@@ -375,9 +375,9 @@ header{
   background:linear-gradient(160deg,#FFFEFB 0%,#F3EEE3 100%);border:1px solid #EDE7D8;box-shadow:var(--sombra);
   display:flex;align-items:center;justify-content:center;
 }
-.reloj-marco::before{content:"";position:absolute;inset:0;background:url(assets/textura-marmol-oro.webp) center/cover;opacity:.16}
 .reloj-marco::after{content:"";position:absolute;inset:0;border-radius:22px;border:1px solid rgba(176,138,51,.35);pointer-events:none}
-.reloj-marco svg{position:relative;width:74%;height:auto;filter:drop-shadow(0 18px 30px rgba(120,90,20,.22))}
+.reloj-marco img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+.reloj-marco:hover img{transform:scale(1.03)}
 .reloj-sello{
   position:absolute;left:1.2rem;bottom:1.2rem;z-index:1;font-size:.66rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
   color:var(--oro-osc);background:rgba(255,254,251,.85);border:1px solid #E4D5AC;border-radius:999px;padding:.4rem .8rem;
@@ -506,11 +506,7 @@ header{
 
 /* ---- Footer ---- */
 footer{background:var(--carbon-2);color:#B9B3A2;font-size:.88rem}
-.footer-grid{
-  display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.4rem;
-  padding:3.4rem 0 2.6rem;
-}
-@media(max-width:760px){.footer-grid{grid-template-columns:1fr;gap:1.9rem}}
+.footer-grid{max-width:36rem;padding:2.8rem 0 2rem}
 footer .marca-f{font-family:var(--serif);font-size:1.6rem;color:#FBF8F0}
 footer .lema-f{color:var(--oro-cl);font-style:italic;font-family:var(--serif);font-size:1.05rem;margin:.3rem 0 1rem}
 footer h4{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#8B8574;margin-bottom:.9rem}
@@ -859,41 +855,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     </div>
     <div class="reloj-visual reveal">
       <div class="reloj-marco">
-        <svg viewBox="0 0 300 380" fill="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="gOroR" x1="0" y1="0" x2="300" y2="380" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#8A6B24"/><stop offset=".45" stop-color="#EBD08A"/><stop offset=".6" stop-color="#C9A24B"/><stop offset="1" stop-color="#8A6B24"/>
-            </linearGradient>
-            <linearGradient id="gCara" x1="150" y1="60" x2="150" y2="320" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#FFFEFB"/><stop offset="1" stop-color="#F1EBDD"/>
-            </linearGradient>
-          </defs>
-          <!-- pulso -->
-          <path d="M96 0h108l-8 44H104zM96 380h108l-8-44H104z" fill="url(#gOroR)"/>
-          <path d="M100 6h100M100 18h100M100 30h100M100 362h100M100 350h100" stroke="#8A6B24" stroke-opacity=".35" stroke-width="1.2"/>
-          <!-- asas -->
-          <path d="M104 44 90 78M196 44l14 34M104 336l-14-34M196 336l14-34" stroke="url(#gOroR)" stroke-width="10" stroke-linecap="round"/>
-          <!-- corona -->
-          <rect x="268" y="178" width="18" height="24" rx="5" fill="url(#gOroR)"/>
-          <!-- caja -->
-          <circle cx="150" cy="190" r="122" fill="url(#gOroR)"/>
-          <circle cx="150" cy="190" r="108" fill="#B08A33"/>
-          <circle cx="150" cy="190" r="100" fill="url(#gCara)"/>
-          <circle cx="150" cy="190" r="100" stroke="#8A6B24" stroke-opacity=".5" stroke-width="1"/>
-          <!-- índices -->
-          <g stroke="#8A6B24" stroke-width="2.4" stroke-linecap="round">
-            <path d="M150 100v14M150 266v14M60 190h14M226 190h14"/>
-            <path d="M195 112l-7 12M105 112l7 12M195 268l-7-12M105 268l7-12M228 145l-12 7M72 145l12 7M228 235l-12-7M72 235l12-7" stroke-width="1.6"/>
-          </g>
-          <text x="150" y="150" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="13" letter-spacing="4" fill="#8A6B24">J &amp; Y</text>
-          <!-- manecillas 10:10 -->
-          <path d="M150 190 108 156" stroke="#17150F" stroke-width="5" stroke-linecap="round"/>
-          <path d="M150 190 203 160" stroke="#17150F" stroke-width="3.5" stroke-linecap="round"/>
-          <path d="M150 190 168 240" stroke="#B08A33" stroke-width="1.6" stroke-linecap="round"/>
-          <circle cx="150" cy="190" r="4.5" fill="url(#gOroR)"/>
-          <!-- reflejo -->
-          <path d="M70 130a95 95 0 0 1 60-40" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/>
-        </svg>
+        <img src="assets/reloj-oro.webp" alt="Reloj de oro con pulso de eslabones sobre mármol con vetas doradas" loading="lazy" width="900" height="1125">
         <span class="reloj-sello">Oro · cualquier marca</span>
       </div>
     </div>
@@ -1087,27 +1049,10 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     <div>
       <p class="marca-f">J &amp; Y Jewelry</p>
       <p class="lema-f">“Tu oro al mejor precio en Texas”</p>
-      <p>Compra de oro y plata con servicio a domicilio en Dallas, Texas y alrededores. Lunes a sábado, únicamente por cita previa.</p>
-    </div>
-    <div>
-      <h4>Navegación</h4>
-      <ul>
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#que-compramos">Qué compramos</a></li>
-        <li><a href="#como-funciona">Cómo funciona</a></li>
-        <li><a href="#nosotros">Nosotros</a></li>
-        <li><a href="#faq">Preguntas frecuentes</a></li>
-        <li><a href="agendar.html">Agendar cita</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Contacto</h4>
-      <ul>
-        <li><a href="tel:+12148935824" data-tel-bonito>(214) 893-5824</a></li>
-        <li><a href="mailto:cubaromero88@hotmail.com" data-email>cubaromero88@hotmail.com</a></li>
-        <li>Dallas, Texas y alrededores</li>
-      </ul>
+      <p>Compra de oro, plata y relojes de oro con servicio a domicilio en Dallas, Texas y alrededores. Lunes a sábado, únicamente por cita previa.</p>
+      <p style="margin-top:.9rem"><a href="https://www.tiktok.com/@romerojesus071" target="_blank" rel="noopener" class="red-social">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 1 1-2.59-2.59c.27 0 .53.04.77.12V9.77a5.76 5.76 0 0 0-.77-.05 5.68 5.68 0 1 0 5.68 5.68V9.29a7.35 7.35 0 0 0 4.3 1.38V7.58a4.3 4.3 0 0 1-3.24-1.76z"/></svg>
+        TikTok — videos reales de compras</a></p>
     </div>
   </div>
   <div class="contenedor footer-legal">
