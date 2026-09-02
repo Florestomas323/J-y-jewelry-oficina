@@ -7,7 +7,7 @@
 <script src="avisar.js" defer></script>
 <meta name="theme-color" content="#FBFAF7">
 <title>J &amp; Y Jewelry — Compra de oro y plata en Dallas | Tu oro al mejor precio en Texas</title>
-<meta name="description" content="Compramos oro y plata en Dallas y alrededores. Evaluación transparente en la comodidad de tu hogar o en un lugar acordado, con pago en efectivo o Zelle. Lunes a sábado por cita previa.">
+<meta name="description" content="Compramos oro, plata y relojes de oro en Dallas y alrededores. Evaluación transparente en la comodidad de tu hogar o en un lugar acordado, con pago en efectivo o Zelle. Lunes a sábado por cita previa.">
 <link rel="canonical" href="https://SUDOMINIO.com/">
 <link rel="icon" type="image/png" href="favicon.png?v=1">
 <link rel="icon" type="image/png" sizes="192x192" href="icono-192.png?v=1">
@@ -61,8 +61,9 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"¿Qué tipo de oro compran?","acceptedAnswer":{"@type":"Answer","text":"Compramos piezas de oro como cadenas, pulseras, anillos, aretes, joyería y monedas. Si no estás seguro de lo que tienes, puedes enviarnos una foto y con gusto te orientamos."}},
+    {"@type":"Question","name":"¿Qué tipo de oro compran?","acceptedAnswer":{"@type":"Answer","text":"Compramos piezas de oro como cadenas, pulseras, anillos, aretes, joyería, monedas y relojes de oro. Si no estás seguro de lo que tienes, puedes enviarnos una foto y con gusto te orientamos."}},
     {"@type":"Question","name":"¿También compran plata?","acceptedAnswer":{"@type":"Answer","text":"Sí. También compramos plata: joyería, cadenas, anillos, pulseras, monedas y otras piezas de plata."}},
+    {"@type":"Question","name":"¿Compran relojes de oro?","acceptedAnswer":{"@type":"Answer","text":"Sí. Compramos relojes con caja, pulso o carátula de oro, funcionen o no, de cualquier marca y época, con o sin caja y papeles. Si conoces la marca y el modelo, menciónalos al solicitar tu evaluación."}},
     {"@type":"Question","name":"¿Cómo se determina el valor de mis piezas?","acceptedAnswer":{"@type":"Answer","text":"Revisamos tus piezas durante la cita y te explicamos la evaluación con claridad antes de presentarte una oferta. Todo el proceso se realiza frente a ti y sin presión."}},
     {"@type":"Question","name":"¿La evaluación tiene algún costo?","acceptedAnswer":{"@type":"Answer","text":"No. Solicitar una evaluación no tiene costo y no te obliga a vender."}},
     {"@type":"Question","name":"¿Estoy obligado a vender después de la evaluación?","acceptedAnswer":{"@type":"Answer","text":"No. Después de conocer nuestra oferta, la decisión es completamente tuya."}},
@@ -357,6 +358,31 @@ header{
   background:linear-gradient(0deg,rgba(23,21,15,.72),rgba(23,21,15,0))}
 .galeria-nota{margin-top:1.1rem;font-size:.82rem;color:var(--piedra);text-align:center}
 
+/* ---- Relojes de oro ---- */
+.reloj-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
+@media(max-width:860px){.reloj-grid{grid-template-columns:1fr}.reloj-visual{order:-1;max-width:340px;margin:0 auto}}
+.reloj h2{font-size:clamp(2.1rem,4.5vw,3.1rem);max-width:20ch}
+.reloj h2 em{font-style:italic;color:var(--oro-osc)}
+.reloj .intro{margin:1.2rem 0 1.6rem;color:#4A463B;max-width:34rem}
+.reloj-puntos{list-style:none;display:grid;gap:.75rem;margin-bottom:1.7rem}
+.reloj-puntos li{display:flex;gap:.8rem;align-items:flex-start;font-size:.95rem;color:#3F3B31}
+.reloj-puntos li strong{display:block;color:var(--carbon)}
+.reloj-puntos svg{width:22px;height:22px;flex:none;stroke:var(--oro-osc);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-top:.15rem}
+.reloj-nota{font-size:.84rem;color:var(--piedra);margin-top:1rem;max-width:34rem}
+.reloj-visual{position:relative}
+.reloj-marco{
+  position:relative;border-radius:22px;overflow:hidden;aspect-ratio:4/5;
+  background:linear-gradient(160deg,#FFFEFB 0%,#F3EEE3 100%);border:1px solid #EDE7D8;box-shadow:var(--sombra);
+  display:flex;align-items:center;justify-content:center;
+}
+.reloj-marco::before{content:"";position:absolute;inset:0;background:url(assets/textura-marmol-oro.webp) center/cover;opacity:.16}
+.reloj-marco::after{content:"";position:absolute;inset:0;border-radius:22px;border:1px solid rgba(176,138,51,.35);pointer-events:none}
+.reloj-marco svg{position:relative;width:74%;height:auto;filter:drop-shadow(0 18px 30px rgba(120,90,20,.22))}
+.reloj-sello{
+  position:absolute;left:1.2rem;bottom:1.2rem;z-index:1;font-size:.66rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--oro-osc);background:rgba(255,254,251,.85);border:1px solid #E4D5AC;border-radius:999px;padding:.4rem .8rem;
+}
+
 /* ---- Cómo funciona (sección oscura) ---- */
 .oscuro{background:var(--carbon);color:#F2EDE1}
 .oscuro h2{color:#FBF8F0}
@@ -571,6 +597,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
 .campo.con-error input,.campo.con-error select{border-color:#C4503E}
 .campo.con-error .error-msg{display:block}
 .metal-opciones{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.metal-opciones label.ancho{grid-column:1/-1}
 .metal-opciones label{
   display:flex;align-items:center;justify-content:center;gap:.4rem;
   border:1px solid var(--linea);border-radius:11px;padding:.7rem .4rem;
@@ -635,6 +662,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     <ul class="nav-links">
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#que-compramos">Qué compramos</a></li>
+      <li><a href="#relojes">Relojes</a></li>
       <li><a href="#como-funciona">Cómo funciona</a></li>
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#faq">Preguntas frecuentes</a></li>
@@ -657,6 +685,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     <nav>
       <a href="#inicio" data-cerrar-menu>Inicio</a>
       <a href="#que-compramos" data-cerrar-menu>Qué compramos</a>
+      <a href="#relojes" data-cerrar-menu>Relojes de oro</a>
       <a href="#como-funciona" data-cerrar-menu>Cómo funciona</a>
       <a href="#nosotros" data-cerrar-menu>Nosotros</a>
       <a href="#faq" data-cerrar-menu>Preguntas frecuentes</a>
@@ -770,6 +799,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
           <li>Aretes</li>
           <li>Joyería</li>
           <li>Monedas</li>
+          <li>Relojes de oro</li>
           <li>Barras y lingotes</li>
           <li>Piezas de oro</li>
         </ul>
@@ -805,6 +835,68 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
       <figure class="reveal"><img src="assets/plata-fina.webp" alt="Barra de plata fina 999 sostenida en la mano" loading="lazy" width="900" height="1125"><figcaption>Plata fina .999</figcaption></figure>
     </div>
     <p class="galeria-nota reveal">Fotografías de piezas evaluadas por J &amp; Y Jewelry.</p>
+  </div>
+</section>
+
+<!-- ================= RELOJES DE ORO ================= -->
+<section id="relojes" class="seccion seccion-clara reloj" aria-labelledby="t-relojes">
+  <div class="contenedor reloj-grid">
+    <div>
+      <p class="eyebrow reveal">Relojes de oro</p>
+      <h2 id="t-relojes" class="reveal">Tu reloj de oro vale, <em>aunque ya no funcione.</em></h2>
+      <p class="intro reveal">Un reloj con caja, pulso o carátula de oro conserva el valor del metal aunque el mecanismo se haya detenido hace años. Lo evaluamos en tu domicilio, con la misma transparencia que cualquier otra pieza.</p>
+      <ul class="reloj-puntos">
+        <li class="reveal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5M9 3h6M9 21h6"/></svg><div><strong>Funcione o no</strong>El oro se valora igual: no importa si el reloj está detenido.</div></li>
+        <li class="reveal"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M4 10h16M9 3v3M15 3v3"/></svg><div><strong>Con o sin caja, papeles o garantía</strong>No necesitas conservar el estuche ni los documentos originales.</div></li>
+        <li class="reveal"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 5 3 8.4 7 10 4-1.6 7-5 7-10V6l-7-3z"/><path d="m9 12 2 2 4-4"/></svg><div><strong>Cualquier marca y época</strong>Relojes de pulsera, de bolsillo, antiguos o modernos.</div></li>
+        <li class="reveal"><svg viewBox="0 0 24 24"><path d="M7 8a5 5 0 0 1 10 0v8a5 5 0 0 1-10 0z"/><path d="M12 6v2M12 16v2"/></svg><div><strong>Pulsos y eslabones sueltos</strong>También compramos extensibles, broches y piezas de oro del reloj.</div></li>
+      </ul>
+      <div class="hero-ctas reveal">
+        <button class="btn btn-oro" data-abrir-modal data-metal="Reloj de oro">Cotiza tu reloj</button>
+        <a class="btn btn-linea" data-ws href="https://wa.me/12148935824?text=Hola%20J%20%26%20Y%20Jewelry%2C%20quiero%20cotizar%20un%20reloj%20de%20oro." target="_blank" rel="noopener">Enviar una foto</a>
+      </div>
+      <p class="reloj-nota reveal">Si conoces la marca y el modelo, menciónalos al solicitar tu evaluación: en algunos relojes, además del oro, la pieza completa puede tener valor adicional.</p>
+    </div>
+    <div class="reloj-visual reveal">
+      <div class="reloj-marco">
+        <svg viewBox="0 0 300 380" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="gOroR" x1="0" y1="0" x2="300" y2="380" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#8A6B24"/><stop offset=".45" stop-color="#EBD08A"/><stop offset=".6" stop-color="#C9A24B"/><stop offset="1" stop-color="#8A6B24"/>
+            </linearGradient>
+            <linearGradient id="gCara" x1="150" y1="60" x2="150" y2="320" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FFFEFB"/><stop offset="1" stop-color="#F1EBDD"/>
+            </linearGradient>
+          </defs>
+          <!-- pulso -->
+          <path d="M96 0h108l-8 44H104zM96 380h108l-8-44H104z" fill="url(#gOroR)"/>
+          <path d="M100 6h100M100 18h100M100 30h100M100 362h100M100 350h100" stroke="#8A6B24" stroke-opacity=".35" stroke-width="1.2"/>
+          <!-- asas -->
+          <path d="M104 44 90 78M196 44l14 34M104 336l-14-34M196 336l14-34" stroke="url(#gOroR)" stroke-width="10" stroke-linecap="round"/>
+          <!-- corona -->
+          <rect x="268" y="178" width="18" height="24" rx="5" fill="url(#gOroR)"/>
+          <!-- caja -->
+          <circle cx="150" cy="190" r="122" fill="url(#gOroR)"/>
+          <circle cx="150" cy="190" r="108" fill="#B08A33"/>
+          <circle cx="150" cy="190" r="100" fill="url(#gCara)"/>
+          <circle cx="150" cy="190" r="100" stroke="#8A6B24" stroke-opacity=".5" stroke-width="1"/>
+          <!-- índices -->
+          <g stroke="#8A6B24" stroke-width="2.4" stroke-linecap="round">
+            <path d="M150 100v14M150 266v14M60 190h14M226 190h14"/>
+            <path d="M195 112l-7 12M105 112l7 12M195 268l-7-12M105 268l7-12M228 145l-12 7M72 145l12 7M228 235l-12-7M72 235l12-7" stroke-width="1.6"/>
+          </g>
+          <text x="150" y="150" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="13" letter-spacing="4" fill="#8A6B24">J &amp; Y</text>
+          <!-- manecillas 10:10 -->
+          <path d="M150 190 108 156" stroke="#17150F" stroke-width="5" stroke-linecap="round"/>
+          <path d="M150 190 203 160" stroke="#17150F" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M150 190 168 240" stroke="#B08A33" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="150" cy="190" r="4.5" fill="url(#gOroR)"/>
+          <!-- reflejo -->
+          <path d="M70 130a95 95 0 0 1 60-40" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span class="reloj-sello">Oro · cualquier marca</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -933,9 +1025,11 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     <h2 id="t-faq" class="reveal" style="font-size:clamp(2rem,4.5vw,3rem);text-align:center">Resolvemos tus dudas.</h2>
     <div class="faq-lista plegada reveal" id="faqLista">
       <details class="faq-item"><summary>¿Qué tipo de oro compran?<span class="mas"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span></summary>
-        <p class="resp">Compramos piezas de oro como cadenas, pulseras, anillos, aretes, joyería y monedas. Si no estás seguro de lo que tienes, envíanos una foto y con gusto te orientamos.</p></details>
+        <p class="resp">Compramos piezas de oro como cadenas, pulseras, anillos, aretes, joyería, monedas y relojes de oro. Si no estás seguro de lo que tienes, envíanos una foto y con gusto te orientamos.</p></details>
       <details class="faq-item"><summary>¿También compran plata?<span class="mas"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span></summary>
         <p class="resp">Sí. También compramos plata: joyería, cadenas, anillos, pulseras, monedas y otras piezas de plata.</p></details>
+      <details class="faq-item"><summary>¿Compran relojes de oro?<span class="mas"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span></summary>
+        <p class="resp">Sí. Compramos relojes con caja, pulso o carátula de oro, funcionen o no, de cualquier marca y época, con o sin caja y papeles. Si conoces la marca y el modelo, menciónalos al solicitar tu evaluación.</p></details>
       <details class="faq-item"><summary>¿Cómo se determina el valor de mis piezas?<span class="mas"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span></summary>
         <p class="resp">Revisamos tus piezas durante la cita y te explicamos la evaluación con claridad antes de presentarte una oferta. Todo el proceso se realiza frente a ti y sin presión.</p></details>
       <details class="faq-item"><summary>¿La evaluación tiene algún costo?<span class="mas"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span></summary>
@@ -1110,7 +1204,8 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
           <label><input type="radio" name="metal" value="Oro">Oro</label>
           <label><input type="radio" name="metal" value="Plata">Plata</label>
           <label><input type="radio" name="metal" value="Oro y plata">Oro y plata</label>
-          <label><input type="radio" name="metal" value="No estoy seguro">No estoy seguro</label>
+          <label><input type="radio" name="metal" value="Reloj de oro">Reloj de oro</label>
+          <label class="ancho"><input type="radio" name="metal" value="No estoy seguro">No estoy seguro</label>
         </div>
         <p class="error-msg">Selecciona una opción.</p>
       </div>

@@ -25,10 +25,10 @@ plantilla Oficina Digital, con identidad completamente nueva.
    (canonical, OG, JSON-LD), `robots.txt`, `sitemap.xml`, `privacidad.html`
    y `terminos.html` con el dominio real.
    `grep -rn "SUDOMINIO" .` debe quedar en cero.
-2. **Firebase**: crear proyecto NUEVO exclusivo de J & Y → pegar credenciales
-   en `config.js` → publicar `firestore-rules.txt` (cambiando
-   `CORREO-ADMIN@gmail.com`). Mientras Firebase no esté configurado, el
-   formulario ofrece llamada/email como alternativa (no falla en silencio).
+2. **Firebase**: proyecto `oro-jesus-romero` ya conectado en `config.js`.
+   Publicar `firestore-rules.txt` (ya trae los dos correos con acceso).
+   Mientras Firebase no responda, el formulario ofrece llamada/email
+   como alternativa (no falla en silencio).
 3. **Probar en móvil real**: modal, subir fotos, envío, barra inferior,
    menú, llamadas con tap.
 4. Verificar el lead de prueba en Firestore → colección `leads`.
@@ -46,9 +46,15 @@ Para activarlo:
 1. Firebase → Authentication → Sign-in method → activar **Google**.
 2. Firebase → Authentication → Settings → Dominios autorizados →
    agregar el dominio del sitio.
-3. En `firestore-rules.txt`, poner el correo de Google del cliente en
-   `CORREO-ADMIN@gmail.com` y publicar las reglas. **Volver a publicarlas
-   cada vez que se actualice este archivo.**
+3. Publicar `firestore-rules.txt`. Los correos con acceso al panel ya
+   están en la función `esAdmin()`: cubaromero88@hotmail.com y
+   florestomas323@gmail.com. **Volver a publicar las reglas cada vez
+   que se actualice este archivo.** Para agregar o quitar un correo,
+   se edita esa lista y se vuelve a publicar.
+   OJO: el login es con Google. Un correo @hotmail.com solo funciona
+   si existe una cuenta de Google creada con ese correo
+   (accounts.google.com → Crear cuenta → "Usar mi dirección de correo
+   actual"). Si no, entrar con un Gmail y agregarlo a la lista.
 4. Firestore pedirá crear un índice compuesto la primera vez que la
    página cargue reseñas (visible + fecha): aceptar el enlace que sale
    en la consola del navegador o crearlo en Firestore → Índices.
