@@ -22,11 +22,20 @@ const PERMITIDAS = {
   testimonials: { titulo: 'Nueva reseña por revisar',      origen: 'Reseñas' },
 };
 
-/* Saca una dirección válida aunque la variable traiga comillas, espacios o "Nombre <correo>". */
-function correoLimpio() {
+/* Saca las direcciones válidas aunque la variable traiga comillas, espacios o
+   "Nombre <correo>". Acepta varias separadas por coma: "tomas@x.com, jesus@y.com". */
+function correosLimpios() {
   const bruto = String(process.env.CORREO_AVISOS || '');
-  const m = bruto.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/);
-  return m ? m[0].toLowerCase() : '';
+  const lista = bruto.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) || [];
+  return [...new Set(lista.map((c) => c.toLowerCase()))];
+}
+function correoLimpio() { return correosLimpios()[0] || ''; }
+/* Remitente: por defecto el de pruebas de Resend (solo entrega al dueño de la
+   cuenta). Con un dominio verificado en Resend, poner CORREO_REMITENTE, p. ej.
+   "J & Y Jewelry <avisos@tudominio.com>", y entonces entrega a cualquiera. */
+function remitente() {
+  const r = String(process.env.CORREO_REMITENTE || '').trim();
+  return r || 'J & Y Jewelry <onboarding@resend.dev>';
 }
 function correoOculto(c) {
   if (!c) return '(vacío)';
@@ -71,15 +80,15 @@ function resumen(col, d) {
 function urlPanel() { return (process.env.DOMINIO || 'https://j-y-jewelry-oficina.vercel.app').replace(/\/$/, '') + '/panel'; }
 
 async function mandarCorreo(info, texto) {
-  const key = process.env.RESEND_API_KEY, para = correoLimpio();
+  const key = process.env.RESEND_API_KEY, para = correosLimpios();
   if (!key) return 'sin configurar';
-  if (!para) return 'CORREO_AVISOS no tiene una dirección válida';
+  if (!para.length) return 'CORREO_AVISOS no tiene una dirección válida';
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from: 'J & Y Jewelry <onboarding@resend.dev>',
-      to: [para],
+      from: remitente(),
+      to: para,
       subject: info.titulo + ' — ' + info.origen,
       text: info.titulo + '\n' + info.origen + '\n\n' + texto + '\n\nAbrir el panel: ' + urlPanel(),
     }),
@@ -181,7 +190,8 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       variables: estado,
       faltan: faltan.length ? faltan : 'ninguna',
-      correo_avisos_leido: correo ? correoOculto(correo) : 'NO VÁLIDO → revisa CORREO_AVISOS en Vercel (solo la dirección, sin comillas ni espacios)',
+      correo_avisos_leido: correosLimpios().length ? correosLimpios().map(correoOculto).join(', ') : 'NO VÁLIDO → revisa CORREO_AVISOS en Vercel (solo la dirección, sin comillas ni espacios)',
+      correo_remitente: remitente(),
       correo_avisos_bruto_longitud: String(process.env.CORREO_AVISOS || '').length,
       claves_vapid: vapid,
       identidad_push: vapidSub(),
