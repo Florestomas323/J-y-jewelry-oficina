@@ -63,7 +63,9 @@ async function mandarCorreo(info, texto) {
       text: info.titulo + '\n' + info.origen + '\n\n' + texto + '\n\nAbrir el panel: ' + urlPanel(),
     }),
   });
-  return r.ok ? 'enviado' : 'fallo ' + r.status;
+  if (r.ok) return 'enviado';
+  let det = ''; try { det = (await r.text()).slice(0, 200); } catch (_) {}
+  return 'fallo ' + r.status + ' ' + det;
 }
 
 async function mandarPush(info, texto) {
@@ -117,6 +119,37 @@ module.exports = async (req, res) => {
       firebase = 'falta FIREBASE_SERVICE_ACCOUNT';
     }
     const faltan = Object.keys(estado).filter((k) => !estado[k]);
+
+    // Prueba directa: /api/notify?probar=push&clave=XXXXXX  (XXXXXX = últimos 6
+    // caracteres de VAPID_PRIVADA). Manda una push de prueba a todos los
+    // dispositivos suscritos y devuelve el resultado exacto de cada uno.
+    const q = req.query || {};
+    const claveOk = q.clave && (process.env.VAPID_PRIVADA || '').trim().slice(-6) === String(q.clave);
+    if (q.probar && !claveOk) return res.status(403).json({ ok: false, error: 'clave incorrecta' });
+    if (q.probar === 'push' && claveOk) {
+      const info = { titulo: 'Prueba de avisos', origen: 'Panel J & Y' };
+      const detalle = [];
+      try {
+        webpush.setVapidDetails('mailto:' + (process.env.CORREO_AVISOS || 'admin@sudominio.com').trim(), process.env.VAPID_PUBLICA.trim(), process.env.VAPID_PRIVADA.trim());
+        const subs = await admin.firestore().collection('pushSubs').get();
+        for (const d of subs.docs) {
+          const sdata = d.data();
+          try {
+            await webpush.sendNotification({ endpoint: sdata.endpoint, keys: { p256dh: sdata.p256dh, auth: sdata.auth } },
+              JSON.stringify({ title: info.titulo, body: 'Si ves esto, las notificaciones funcionan.', url: '/panel', tag: 'prueba' }));
+            detalle.push({ dispositivo: (sdata.ua || '').slice(0, 60), resultado: 'enviada' });
+          } catch (e) {
+            detalle.push({ dispositivo: (sdata.ua || '').slice(0, 60), resultado: 'ERROR ' + (e.statusCode || '') + ' ' + (e.body || e.message || '').toString().slice(0, 200) });
+          }
+        }
+        return res.status(200).json({ prueba: 'push', dispositivos: subs.size, detalle: detalle.length ? detalle : 'ningún dispositivo suscrito: activa los avisos desde el panel' });
+      } catch (e) { return res.status(200).json({ prueba: 'push', error: e.message }); }
+    }
+    if (q.probar === 'correo' && claveOk) {
+      const r = await mandarCorreo({ titulo: 'Prueba de avisos', origen: 'Panel J & Y' }, 'Si ves esto, los correos funcionan.').catch((e) => 'error: ' + e.message);
+      return res.status(200).json({ prueba: 'correo', resultado: r });
+    }
+
     return res.status(200).json({
       variables: estado,
       faltan: faltan.length ? faltan : 'ninguna',
