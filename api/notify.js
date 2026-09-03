@@ -22,6 +22,26 @@ const PERMITIDAS = {
   testimonials: { titulo: 'Nueva reseña por revisar',      origen: 'Reseñas' },
 };
 
+/* Saca una dirección válida aunque la variable traiga comillas, espacios o "Nombre <correo>". */
+function correoLimpio() {
+  const bruto = String(process.env.CORREO_AVISOS || '');
+  const m = bruto.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/);
+  return m ? m[0].toLowerCase() : '';
+}
+function correoOculto(c) {
+  if (!c) return '(vacío)';
+  const [u, d] = c.split('@');
+  return u.slice(0, 2) + '***@' + d;
+}
+/* Identidad VAPID: Apple exige mailto: válido o https: válido. Usamos el dominio
+   si existe, así la push nunca depende de que el correo esté bien escrito. */
+function vapidSub() {
+  const dom = (process.env.DOMINIO || '').trim();
+  if (/^https:\/\//.test(dom)) return dom.replace(/\/$/, '');
+  const c = correoLimpio();
+  return c ? 'mailto:' + c : 'https://j-y-jewelry-oficina.vercel.app';
+}
+
 let listo = false;
 function iniciarFirebase() {
   if (listo || admin.apps.length) { listo = true; return; }
@@ -51,8 +71,9 @@ function resumen(col, d) {
 function urlPanel() { return (process.env.DOMINIO || 'https://j-y-jewelry-oficina.vercel.app').replace(/\/$/, '') + '/panel'; }
 
 async function mandarCorreo(info, texto) {
-  const key = process.env.RESEND_API_KEY, para = process.env.CORREO_AVISOS;
-  if (!key || !para) return 'sin configurar';
+  const key = process.env.RESEND_API_KEY, para = correoLimpio();
+  if (!key) return 'sin configurar';
+  if (!para) return 'CORREO_AVISOS no tiene una dirección válida';
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
@@ -71,7 +92,7 @@ async function mandarCorreo(info, texto) {
 async function mandarPush(info, texto) {
   const pub = (process.env.VAPID_PUBLICA || '').trim(), priv = (process.env.VAPID_PRIVADA || '').trim();
   if (!pub || !priv) return 'sin configurar';
-  try { webpush.setVapidDetails('mailto:' + (process.env.CORREO_AVISOS || 'admin@sudominio.com').trim(), pub, priv); }
+  try { webpush.setVapidDetails(vapidSub(), pub, priv); }
   catch (e) { return 'claves VAPID inválidas: ' + e.message; }
   const subs = await admin.firestore().collection('pushSubs').get();
   if (subs.empty) return 'sin dispositivos';
@@ -130,7 +151,7 @@ module.exports = async (req, res) => {
       const info = { titulo: 'Prueba de avisos', origen: 'Panel J & Y' };
       const detalle = [];
       try {
-        webpush.setVapidDetails('mailto:' + (process.env.CORREO_AVISOS || 'admin@sudominio.com').trim(), process.env.VAPID_PUBLICA.trim(), process.env.VAPID_PRIVADA.trim());
+        webpush.setVapidDetails(vapidSub(), process.env.VAPID_PUBLICA.trim(), process.env.VAPID_PRIVADA.trim());
         const subs = await admin.firestore().collection('pushSubs').get();
         for (const d of subs.docs) {
           const sdata = d.data();
@@ -150,9 +171,20 @@ module.exports = async (req, res) => {
       return res.status(200).json({ prueba: 'correo', resultado: r });
     }
 
+    const correo = correoLimpio();
+    const pubV = (process.env.VAPID_PUBLICA || '').trim(), privV = (process.env.VAPID_PRIVADA || '').trim();
+    let vapid = 'no configuradas';
+    if (pubV && privV) {
+      try { webpush.setVapidDetails(vapidSub(), pubV, privV); vapid = 'válidas (pública ' + pubV.length + ' caracteres, privada ' + privV.length + ')'; }
+      catch (e) { vapid = 'INVÁLIDAS: ' + e.message; }
+    }
     return res.status(200).json({
       variables: estado,
       faltan: faltan.length ? faltan : 'ninguna',
+      correo_avisos_leido: correo ? correoOculto(correo) : 'NO VÁLIDO → revisa CORREO_AVISOS en Vercel (solo la dirección, sin comillas ni espacios)',
+      correo_avisos_bruto_longitud: String(process.env.CORREO_AVISOS || '').length,
+      claves_vapid: vapid,
+      identidad_push: vapidSub(),
       firebase,
       dispositivos,
       correo: estado.RESEND_API_KEY && estado.CORREO_AVISOS ? 'configurado' : 'falta configurar',
