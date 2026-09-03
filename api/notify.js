@@ -48,7 +48,7 @@ function resumen(col, d) {
   if (d.notas) p.push(String(d.notas).slice(0, 120));
   return p.filter(Boolean).join(' · ') || 'Sin detalles';
 }
-function urlPanel() { return (process.env.DOMINIO || 'https://SUDOMINIO.com').replace(/\/$/, '') + '/panel'; }
+function urlPanel() { return (process.env.DOMINIO || 'https://j-y-jewelry-oficina.vercel.app').replace(/\/$/, '') + '/panel'; }
 
 async function mandarCorreo(info, texto) {
   const key = process.env.RESEND_API_KEY, para = process.env.CORREO_AVISOS;
@@ -92,6 +92,41 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   if (req.method === 'OPTIONS') return res.status(204).end();
+
+  // Diagnóstico: abrir /api/notify en el navegador dice qué falta configurar.
+  // Nunca muestra el valor de las variables, solo si están puestas.
+  if (req.method === 'GET') {
+    const hay = (v) => Boolean(process.env[v] && String(process.env[v]).trim());
+    const estado = {
+      FIREBASE_SERVICE_ACCOUNT: hay('FIREBASE_SERVICE_ACCOUNT'),
+      RESEND_API_KEY: hay('RESEND_API_KEY'),
+      CORREO_AVISOS: hay('CORREO_AVISOS'),
+      VAPID_PUBLICA: hay('VAPID_PUBLICA'),
+      VAPID_PRIVADA: hay('VAPID_PRIVADA'),
+      DOMINIO: hay('DOMINIO'),
+    };
+    let firebase = 'no probado', dispositivos = 'no probado';
+    if (estado.FIREBASE_SERVICE_ACCOUNT) {
+      try {
+        iniciarFirebase();
+        const s = await admin.firestore().collection('pushSubs').get();
+        firebase = 'conectado';
+        dispositivos = s.size + ' dispositivo(s) con avisos activados';
+      } catch (e) { firebase = 'ERROR: ' + e.message; }
+    } else {
+      firebase = 'falta FIREBASE_SERVICE_ACCOUNT';
+    }
+    const faltan = Object.keys(estado).filter((k) => !estado[k]);
+    return res.status(200).json({
+      variables: estado,
+      faltan: faltan.length ? faltan : 'ninguna',
+      firebase,
+      dispositivos,
+      correo: estado.RESEND_API_KEY && estado.CORREO_AVISOS ? 'configurado' : 'falta configurar',
+      push: estado.VAPID_PUBLICA && estado.VAPID_PRIVADA ? 'configurado' : 'falta configurar',
+    });
+  }
+
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
   try {
     const cuerpo = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
