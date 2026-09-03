@@ -825,7 +825,7 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
   <div class="contenedor">
     <p class="eyebrow reveal">Piezas reales</p>
     <h2 id="t-galeria" class="reveal" style="font-size:clamp(2rem,4.5vw,3rem);max-width:22ch">Así se ve nuestro trabajo.</h2>
-    <div class="galeria">
+    <div class="galeria" id="galeriaGrid">
       <figure class="reveal"><img src="assets/evaluacion-piezas.webp" alt="Joyería de oro sobre una balanza digital durante una evaluación" loading="lazy" width="900" height="1125"><figcaption>Joyería de oro en evaluación</figcaption></figure>
       <figure class="reveal"><img src="assets/monedas-oro.webp" alt="Monedas de oro, entre ellas Centenarios mexicanos, sobre la mesa de evaluación" loading="lazy" width="900" height="1125"><figcaption>Monedas de oro</figcaption></figure>
       <figure class="reveal"><img src="assets/plata-fina.webp" alt="Barra de plata fina 999 sostenida en la mano" loading="lazy" width="900" height="1125"><figcaption>Plata fina .999</figcaption></figure>
@@ -1428,6 +1428,24 @@ body.modal-abierto .btn-ws{transform:translateY(140%)}
     if(!ticking){ ticking = true; requestAnimationFrame(revisarBarra); }
   }, {passive:true});
   revisarBarra();
+
+  /* ---------- Galería: si el panel cargó fotos, reemplazar las fijas ---------- */
+  (async function(){
+    if(!N.firebaseListo) return;
+    try{
+      var fb = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+      var fs = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+      var app = (fb.getApps&&fb.getApps().length)?fb.getApps()[0]:fb.initializeApp(N.firebase);
+      var snap = await fs.getDocs(fs.query(fs.collection(fs.getFirestore(app),"galeria"), fs.orderBy("orden","asc"), fs.limit(12)));
+      if(snap.empty) return;
+      var grid = document.getElementById("galeriaGrid");
+      grid.innerHTML = snap.docs.map(function(d){
+        var g = d.data();
+        return '<figure class="reveal visto"><img src="'+g.src+'" alt="'+escHtml(g.texto||"Pieza evaluada por J & Y Jewelry")+'" loading="lazy">'+
+               (g.texto?'<figcaption>'+escHtml(g.texto)+'</figcaption>':'')+'</figure>';
+      }).join("");
+    }catch(e){}
+  })();
 
   /* ---------- Reseñas: cargar publicadas ---------- */
   var EJEMPLOS = [

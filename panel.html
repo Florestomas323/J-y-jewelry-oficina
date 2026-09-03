@@ -9,6 +9,10 @@
 <title>Panel — J &amp; Y Jewelry</title>
 <link rel="icon" type="image/png" href="favicon.png?v=1">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1">
+<link rel="manifest" href="/panel.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Panel J &amp; Y">
 <meta property="og:title" content="Panel — J &amp; Y Jewelry">
 <meta property="og:description" content="Acceso privado para J &amp; Y Jewelry.">
@@ -198,7 +202,7 @@ header{position:sticky;top:0;z-index:20;background:var(--carbon);color:#F2EDE1;b
     <div class="head">
       <div class="marca">J &amp; Y Jewelry<span>Panel de solicitudes</span></div>
       <div class="head-der">
-        <img id="fotoUsuario" alt="" style="display:none">
+        <span id="correoUsuario" style="font-size:.72rem;color:#B9B3A2;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
         <button class="salir" id="btnSalir">Salir</button>
       </div>
     </div>
@@ -218,6 +222,7 @@ header{position:sticky;top:0;z-index:20;background:var(--carbon);color:#F2EDE1;b
       <button class="activa" data-tab="leads">Solicitudes<span class="badge oculto" id="bLeads"></span></button>
       <button data-tab="agenda">Agenda<span class="badge oculto" id="bAgenda"></span></button>
       <button data-tab="resenas">Reseñas<span class="badge oculto" id="bResenas"></span></button>
+      <button data-tab="galeria">Galería</button>
       <button data-tab="conversion">Conversión</button>
     </div>
 
@@ -282,6 +287,18 @@ header{position:sticky;top:0;z-index:20;background:var(--carbon);color:#F2EDE1;b
         <button class="chip" data-rs="todas">Todas</button>
       </div>
       <div id="listaResenas"></div>
+    </section>
+
+    <!-- Galería -->
+    <section id="tabGaleria" class="oculto">
+      <p class="aviso">Fotos de la sección "Así se ve nuestro trabajo" de la página. Mientras no agregues ninguna aquí, la página muestra las tres fotos originales. En cuanto agregues una, la página usa solo las de esta lista, en este orden.</p>
+      <div class="form-panel">
+        <h3>Agregar foto</h3>
+        <div class="campo"><label for="gTexto">Texto al pie (corto)</label><input id="gTexto" maxlength="60" placeholder="Ej. Monedas de oro"></div>
+        <div class="fotos-r" id="gNueva"></div>
+        <button class="btn btn-oro" id="btnAgregarFoto" disabled>Publicar en la galería</button>
+      </div>
+      <div id="listaGaleria"></div>
     </section>
 
     <!-- Conversión -->
@@ -379,12 +396,13 @@ $("btnSalir").addEventListener("click", ()=> signOut(auth).catch(()=>{}));
 
 onAuthStateChanged(auth, usuario => {
   if(!usuario){ vista("login"); return; }
-  if(usuario.photoURL){ $("fotoUsuario").src = usuario.photoURL; $("fotoUsuario").style.display = "block"; }
+  $("correoUsuario").textContent = usuario.email || "";
   vista("cargando");
   escucharLeads();
   escucharClicks();
   escucharCitas();
   escucharResenas();
+  escucharGaleria();
   cargarAgendaCfg();
   prepararPush();
 });
@@ -520,7 +538,7 @@ document.querySelectorAll("[data-tab]").forEach(b => {
   b.addEventListener("click", () => {
     document.querySelectorAll("[data-tab]").forEach(x => x.classList.remove("activa"));
     b.classList.add("activa");
-    ["leads","agenda","resenas","conversion"].forEach(t=>{
+    ["leads","agenda","resenas","galeria","conversion"].forEach(t=>{
       const el = $("tab"+t.charAt(0).toUpperCase()+t.slice(1)); if(el) el.classList.toggle("oculto", b.dataset.tab !== t);
     });
   });
@@ -728,27 +746,120 @@ $("btnAgregarResena").addEventListener("click", async ()=>{
   }catch(err){ toast("No se pudo publicar"); } finally{ b.disabled=false; }
 });
 
+/* ================= GALERÍA ================= */
+let GALERIA = [], gFotoNueva = "";
+function escucharGaleria(){
+  onSnapshot(query(collection(db,"galeria"), orderBy("orden","asc"), limit(30)), snap=>{
+    GALERIA = snap.docs.map(d=>({id:d.id,...d.data()}));
+    pintarGaleria();
+  }, ()=>{});
+}
+function pintarGNueva(){
+  $("gNueva").innerHTML = gFotoNueva
+    ? `<div class="foto-r"><img src="${gFotoNueva}" alt=""><button class="q" data-gq aria-label="Quitar">✕</button><div class="et">Nueva</div></div>`
+    : `<button class="foto-add" data-gp>＋ Elegir foto</button>`;
+  $("btnAgregarFoto").disabled = !gFotoNueva;
+}
+pintarGNueva();
+$("gNueva").addEventListener("click", async e=>{
+  if(e.target.closest("[data-gp]")){ const f = await elegirFoto(); if(f){ gFotoNueva=f; pintarGNueva(); } }
+  if(e.target.closest("[data-gq]")){ gFotoNueva=""; pintarGNueva(); }
+});
+$("btnAgregarFoto").addEventListener("click", async ()=>{
+  if(!gFotoNueva) return;
+  const b=$("btnAgregarFoto"); b.disabled=true;
+  try{
+    const orden = GALERIA.length ? Math.max(...GALERIA.map(g=>g.orden||0))+1 : 1;
+    await addDoc(collection(db,"galeria"), { src:gFotoNueva, texto:$("gTexto").value.trim().slice(0,60), orden, fecha:serverTimestamp() });
+    gFotoNueva=""; $("gTexto").value=""; pintarGNueva(); toast("Foto publicada");
+  }catch(err){ toast("No se pudo publicar"); b.disabled=false; }
+});
+function pintarGaleria(){
+  const cont=$("listaGaleria");
+  if(!GALERIA.length){ cont.innerHTML = `<div class="vacio"><div class="icono">◇</div><p>La página está mostrando las tres fotos originales. Agrega una para reemplazarlas.</p></div>`; return; }
+  cont.innerHTML = GALERIA.map((g,i)=>`<article class="lead" data-gid="${g.id}">
+    <div style="display:flex;gap:1rem;align-items:flex-start;flex-wrap:wrap">
+      <img src="${g.src}" data-zoom alt="" style="width:110px;height:138px;object-fit:cover;border-radius:10px;border:1px solid var(--linea);cursor:zoom-in">
+      <div style="flex:1;min-width:180px">
+        <div class="dato"><div class="k">Posición</div><div class="v">${i+1} de ${GALERIA.length}</div></div>
+        <div class="campo" style="margin-top:.6rem"><label>Texto al pie</label><input data-gtexto value="${esc(g.texto||"")}" maxlength="60"></div>
+        <div class="acciones" style="border:none;padding-top:0">
+          <button class="btn btn-linea" data-gsube ${i===0?"disabled":""}>↑ Subir</button>
+          <button class="btn btn-linea" data-gbaja ${i===GALERIA.length-1?"disabled":""}>↓ Bajar</button>
+          <button class="btn btn-linea" data-gcambiar>Cambiar foto</button>
+          <button class="borrar" data-gborrar>Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </article>`).join("");
+}
+$("listaGaleria").addEventListener("change", async e=>{
+  const inp=e.target.closest("[data-gtexto]"); if(!inp) return;
+  const id=inp.closest("[data-gid]").dataset.gid;
+  try{ await updateDoc(doc(db,"galeria",id), { texto: inp.value.trim().slice(0,60) }); toast("Texto guardado"); }catch(err){ toast("No se pudo guardar"); }
+});
+$("listaGaleria").addEventListener("click", async e=>{
+  const art=e.target.closest("[data-gid]"); if(!art) return;
+  const id=art.dataset.gid; const i=GALERIA.findIndex(g=>g.id===id); const g=GALERIA[i];
+  try{
+    if(e.target.closest("[data-zoom]")){ $("visorImg").src=g.src; $("visor").classList.remove("oculto"); return; }
+    if(e.target.closest("[data-gsube]") && i>0){ const o=GALERIA[i-1]; await Promise.all([updateDoc(doc(db,"galeria",g.id),{orden:o.orden}), updateDoc(doc(db,"galeria",o.id),{orden:g.orden})]); return; }
+    if(e.target.closest("[data-gbaja]") && i<GALERIA.length-1){ const o=GALERIA[i+1]; await Promise.all([updateDoc(doc(db,"galeria",g.id),{orden:o.orden}), updateDoc(doc(db,"galeria",o.id),{orden:g.orden})]); return; }
+    if(e.target.closest("[data-gcambiar]")){ const f=await elegirFoto(); if(!f) return; await updateDoc(doc(db,"galeria",id),{src:f}); toast("Foto cambiada"); return; }
+    if(e.target.closest("[data-gborrar]")){ if(!confirm("¿Eliminar esta foto de la galería?")) return; await deleteDoc(doc(db,"galeria",id)); toast("Foto eliminada"); return; }
+  }catch(err){ toast("No se pudo guardar"); }
+});
+/* Orden inicial: si dos fotos quedaron con el mismo orden, normalizar */
+
 /* ================= PUSH ================= */
+function pushMsg(t, conBoton, textoBoton){
+  $("pushBar").classList.remove("oculto");
+  $("pushTxt").textContent = t;
+  $("btnPush").classList.toggle("oculto", !conBoton);
+  if(textoBoton) $("btnPush").textContent = textoBoton;
+}
+function idSub(endpoint){ return btoa(endpoint).replace(/[^a-zA-Z0-9]/g,"").slice(0,120); }
 async function prepararPush(){
   const pub = (N.vapidPublica||"").trim();
-  if(!pub || !("serviceWorker" in navigator) || !("PushManager" in window)) return;
-  try{
-    const reg = await navigator.serviceWorker.register("sw-panel.js");
-    const sub = await reg.pushManager.getSubscription();
-    $("pushBar").classList.remove("oculto");
-    if(sub){ $("pushTxt").textContent = "Avisos activados en este dispositivo."; $("btnPush").textContent = "Desactivar"; }
-    $("btnPush").onclick = async ()=>{
-      try{
-        const actual = await reg.pushManager.getSubscription();
-        if(actual){ await deleteDoc(doc(db,"pushSubs", btoa(actual.endpoint).replace(/[^a-zA-Z0-9]/g,"").slice(0,120))).catch(()=>{}); await actual.unsubscribe(); $("pushTxt").textContent="Avisos desactivados."; $("btnPush").textContent="Activar avisos"; return; }
-        const perm = await Notification.requestPermission(); if(perm!=="granted"){ toast("Permiso denegado"); return; }
-        const s = await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey: b64aU8(pub) });
-        const j = s.toJSON();
-        await setDoc(doc(db,"pushSubs", btoa(s.endpoint).replace(/[^a-zA-Z0-9]/g,"").slice(0,120)), { endpoint:s.endpoint, p256dh:j.keys.p256dh, auth:j.keys.auth, creado:serverTimestamp(), ua:navigator.userAgent.slice(0,120) });
-        $("pushTxt").textContent="Avisos activados en este dispositivo."; $("btnPush").textContent="Desactivar"; toast("Avisos activados");
-      }catch(e){ toast("No se pudieron activar los avisos"); }
-    };
-  }catch(e){}
+  const esIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const instalada = window.navigator.standalone === true || (window.matchMedia && matchMedia("(display-mode: standalone)").matches);
+
+  if(!pub){ pushMsg("Los avisos push no están configurados: falta la clave pública en config.js.", false); return; }
+  if(esIOS && !instalada){
+    pushMsg("Para recibir avisos en iPhone: abre este panel en Safari, toca Compartir → \"Agregar a pantalla de inicio\" y ábrelo desde ese ícono.", false); return;
+  }
+  if(!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)){
+    pushMsg("Este navegador no permite avisos push. Usa Safari (iPhone, instalado en inicio) o Chrome (Android).", false); return;
+  }
+  let reg;
+  try{ reg = await navigator.serviceWorker.register("/sw-panel.js"); await navigator.serviceWorker.ready; }
+  catch(e){ pushMsg("No se pudo iniciar el servicio de avisos: " + e.message + ". Verifica que sw-panel.js esté subido en la raíz del sitio.", false); return; }
+  if(Notification.permission === "denied"){
+    pushMsg("Los avisos están bloqueados para este panel. Actívalos en Ajustes del teléfono → Notificaciones → Panel J&Y.", false); return;
+  }
+  const sub = await reg.pushManager.getSubscription().catch(()=>null);
+  if(sub) pushMsg("Avisos activados en este dispositivo.", true, "Desactivar");
+  else    pushMsg("Recibe un aviso en este dispositivo cuando entre una solicitud, cita o reseña.", true, "Activar avisos");
+
+  $("btnPush").onclick = async ()=>{
+    const b = $("btnPush"); b.disabled = true;
+    try{
+      const actual = await reg.pushManager.getSubscription();
+      if(actual){
+        await deleteDoc(doc(db,"pushSubs", idSub(actual.endpoint))).catch(()=>{});
+        await actual.unsubscribe();
+        pushMsg("Avisos desactivados en este dispositivo.", true, "Activar avisos"); return;
+      }
+      const perm = await Notification.requestPermission();
+      if(perm !== "granted"){ pushMsg("No diste permiso. Vuelve a intentarlo y elige Permitir.", true, "Activar avisos"); return; }
+      const s = await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey: b64aU8(pub) });
+      const j = s.toJSON();
+      await setDoc(doc(db,"pushSubs", idSub(s.endpoint)), { endpoint:s.endpoint, p256dh:j.keys.p256dh, auth:j.keys.auth, creado:serverTimestamp(), ua:navigator.userAgent.slice(0,120) });
+      pushMsg("Avisos activados en este dispositivo.", true, "Desactivar"); toast("Avisos activados");
+    }catch(e){
+      pushMsg("No se pudieron activar los avisos: " + (e.message||e) + ".", true, "Reintentar");
+    }finally{ b.disabled = false; }
+  };
 }
 function b64aU8(b){ const p="=".repeat((4-b.length%4)%4); const s=(b+p).replace(/-/g,"+").replace(/_/g,"/"); const r=atob(s); return Uint8Array.from([...r].map(c=>c.charCodeAt(0))); }
 

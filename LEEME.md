@@ -108,6 +108,22 @@ reseñas recibidas por WhatsApp/TikTok. La sección del sitio no aparece
 hasta que exista la primera publicada. `index.html?demo=resenas`
 muestra 3 ejemplos de diseño, marcados como tal y no publicados.
 
+## Galería editable
+
+Pestaña Galería del panel: agregar fotos (se comprimen en el teléfono),
+cambiar texto al pie, reordenar, reemplazar o eliminar. Mientras la
+colección `galeria` esté vacía, la página muestra las tres fotos
+originales; con la primera foto agregada pasa a usar solo las del panel.
+
+## Panel como app y avisos push
+
+El panel tiene su propio `panel.webmanifest` (display standalone). En
+iPhone: Safari → Compartir → “Agregar a pantalla de inicio” → abrir desde
+el ícono. La barra de avisos del panel ahora **siempre** dice en qué
+estado está (falta instalar, permiso bloqueado, clave ausente, etc.).
+Si el panel ya estaba agregado a inicio antes de este cambio, hay que
+quitarlo y volverlo a agregar para que tome el manifest nuevo.
+
 ## Pendientes (datos no proporcionados)
 
 - Dominio definitivo.
